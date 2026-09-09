@@ -1,3 +1,4 @@
+import BrandLogo from "@/components/BrandLogo";
 import { useEffect, useRef, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { ArrowLeft, ArrowRight, ArrowUpRight, Camera, LockKeyhole, Minus, Plus, Truck } from 'lucide-react';
@@ -23,7 +24,7 @@ export default function Checkout() {
   const unitAmount = editing ? Math.round(content.price*100) : config?.unitAmount ?? Math.round(content.price*100);
   const shipping = config?.shippingAmount ?? 0;
   return <div className="checkout-page">
-    <header className="checkout-header shell"><Link className="wordmark" to="/"><Copy field="header.david-slings"/><span className="brand-dot">✳</span></Link><span><LockKeyhole size={14}/> Secure checkout</span></header>
+    <header className="checkout-header shell"><Link className="wordmark" to="/"><BrandLogo /></Link><span><LockKeyhole size={14}/> Secure checkout</span></header>
     <main className="checkout-grid shell">
       <section className="checkout-main checkout-start">
         <Link className="back-link" to="/#sling"><ArrowLeft size={15}/><Copy field="checkout.back-to-the-sling"/></Link>

@@ -117,6 +117,19 @@ h3 {
   font-size: 31px;
   color: #849567;
 }
+.brand-logo {
+  display: block;
+  width: 144px;
+  height: 96px;
+  object-fit: contain;
+  mix-blend-mode: multiply;
+  flex-shrink: 0;
+}
+.checkout-header .brand-logo,
+.site-footer .brand-logo {
+  width: 126px;
+  height: 84px;
+}
 .site-header nav {
   display: flex;
   align-items: center;

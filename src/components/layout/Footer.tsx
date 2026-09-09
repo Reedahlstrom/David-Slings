@@ -1,3 +1,4 @@
+import BrandLogo from "@/components/BrandLogo";
 import { Copy, useSite } from "@/lib/storefront";
 import { ArrowUpRight } from "lucide-react";
 export default function Footer() {
@@ -5,7 +6,7 @@ export default function Footer() {
   return (
     <footer className="site-footer shell">
       <a className="wordmark" href="/">
-        <Copy field="header.david-slings" /><span className="brand-dot">✳</span>
+        <BrandLogo />
       </a>
       <p><Copy field="footer.a-little-less-screen-time-a-little-more-outside" /></p>
       <a href={`mailto:${content.contactEmail}`}>

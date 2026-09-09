@@ -1,3 +1,4 @@
+import BrandLogo from "@/components/BrandLogo";
 import { useEffect, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { ArrowUpRight, Check, Package } from 'lucide-react';
@@ -21,7 +22,7 @@ export default function CheckoutSuccess() {
   },[session,retry]);
   const preview=editing&&!session;
   const paid=order?.status==='paid';
-  return <div className="confirmation-page"><header className="checkout-header shell"><Link className="wordmark" to="/"><Copy field="header.david-slings"/><span className="brand-dot">✳</span></Link></header><main className="confirmation-card">
+  return <div className="confirmation-page"><header className="checkout-header shell"><Link className="wordmark" to="/"><BrandLogo /></Link></header><main className="confirmation-card">
     {preview&&<p className="preview-notice">Editor preview. No order has been placed.</p>}
     {order?.test&&<p className="preview-notice">Test order. No real payment was taken.</p>}
     <span className="confirmation-check">{paid||preview?<Check size={29}/>:<Package size={29}/>}</span>

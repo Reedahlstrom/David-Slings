@@ -19,7 +19,7 @@ export default function SiteEditor(){
  if(!file)return;setError('');if(file.size>8*1024*1024){setError('Choose an image smaller than 8 MB.');return;}if(!['image/jpeg','image/png','image/webp'].includes(file.type)){setError('Choose a JPG, PNG, or WebP image.');return;}
  setUploading(target);
  try{const response=await fetch('/api/media',{method:'POST',headers:{'Content-Type':file.type},body:file});const data=await response.json();if(!response.ok)throw Error(data.error||'Upload failed.');
- setContent(c=>{const media={...c.media};if(target==='new')media.photos=[...media.photos,{src:data.src,alt:file.name.replace(/\.[^.]+$/,'').replace(/[-_]/g,' '),caption:'',position:50}];else if(/^photo-/.test(target))media.photos=media.photos.map((p,i)=>i===Number(target.slice(6))?{...p,src:data.src}:p);else media[target as 'hero'|'product'|'poster']=data.src;return {...c,media};});
+ setContent(c=>{const media={...c.media};if(target==='new')media.photos=[...media.photos,{src:data.src,alt:file.name.replace(/\.[^.]+$/,'').replace(/[-_]/g,' '),caption:'',position:50}];else if(/^photo-/.test(target))media.photos=media.photos.map((p,i)=>i===Number(target.slice(6))?{...p,src:data.src}:p);else media[target as 'logo'|'hero'|'product'|'poster']=data.src;return {...c,media};});
  }catch(e){setError(e instanceof Error?e.message:'Upload failed. Try again.');}finally{setUploading('');}
  }
  const uploadButton=(target:string,label:string)=><label className={`editor-upload ${uploading?'disabled':''}`}>{uploading===target?'Uploading…':label}<input type="file" accept="image/jpeg,image/png,image/webp" disabled={!!uploading||site.saving} onChange={e=>{void upload(e.target.files?.[0],target);e.target.value='';}} /></label>;
@@ -39,6 +39,7 @@ export default function SiteEditor(){
   </>}
   {tab==='Photos'&&<>
    <p className="editor-tip">Upload JPG, PNG, or WebP images up to 8 MB. Your uploads are saved when added; click Save changes to put them on the site.</p>
+   <div className="editor-photo"><h3>Logo</h3><img src={content.media.logo||'/images/david-slings-logo.png'} alt="Current logo"/>{uploadButton('logo','Replace logo')}</div>
    {(['hero','product','poster'] as const).map(key=><div className="editor-photo" key={key}><h3>{key==='hero'?'Hero photo':key==='product'?'Product & checkout photo':'Video cover'}</h3><img src={content.media[key]} alt=""/>{uploadButton(key,'Replace photo')}
    {key!=='poster'&&<><label>Image description<input maxLength={300} value={content.media[`${key}Alt`]} onChange={e=>setMedia({[`${key}Alt`]:e.target.value})}/></label><label>Crop position<input type="range" min="0" max="100" value={content.media[`${key}Position`]} onChange={e=>setMedia({[`${key}Position`]:Number(e.target.value)})}/></label></>}
    </div>)}
