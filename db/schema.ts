@@ -33,3 +33,5 @@ export const stripeEvents = sqliteTable('stripe_events', {
 export const businessWorkspace = sqliteTable('business_workspace', {
  id:text('id').primaryKey(),content:text('content').notNull(),revision:integer('revision').notNull(),updatedAt:text('updated_at').notNull(),updatedBy:text('updated_by').notNull(),
 });
+export const adminSessions = sqliteTable('admin_sessions', {id:text('id').primaryKey(),email:text('email').notNull(),expiresAt:integer('expires_at').notNull()});
+export const loginAttempts = sqliteTable('login_attempts', {id:text('id').primaryKey(),attempts:integer('attempts').notNull(),expiresAt:integer('expires_at').notNull()});

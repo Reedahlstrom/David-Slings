@@ -1,7 +1,7 @@
 import { businessDefaults, validBusiness, unitCosts } from '../shared/business';
 import { defaults, mergeContent } from '../shared/content';
 import { canEdit, json, readBytes } from './http';
-export async function readBusiness(env:Env){const row=await env.DB.prepare('SELECT content,revision,updated_at,updated_by FROM business_workspace WHERE id = ?').bind('main').first<{content:string;revision:number;updated_at:string;updated_by:string}>();return {business:row?JSON.parse(row.content) as typeof businessDefaults:structuredClone(businessDefaults),revision:row?.revision??0,updatedAt:row?.updated_at??null,updatedBy:row?.updated_by??null};}
+export async function readBusiness(env:Env){const row=await env.DB.prepare('SELECT content,revision,updated_at,updated_by FROM business_workspace WHERE id = ?').bind('main').first<{content:string;revision:number;updated_at:string;updated_by:string}>();return {business:row?{...structuredClone(businessDefaults),...JSON.parse(row.content)} as typeof businessDefaults:structuredClone(businessDefaults),revision:row?.revision??0,updatedAt:row?.updated_at??null,updatedBy:row?.updated_by??null};}
 export async function handleBusiness(request:Request,env:Env):Promise<Response|null>{
  const url=new URL(request.url);if(!url.pathname.startsWith('/api/business'))return null;
  if(!canEdit(request,env))return json({error:'Sign in with Reed or Carter’s approved account.'},403);
@@ -37,7 +37,14 @@ export async function handleBusiness(request:Request,env:Env):Promise<Response|n
    FROM orders WHERE livemode=? AND paid_at>=?`).bind(Math.round(costs.cogs*100),business.feePercent,Math.round(business.feeFixed*100),mode,since).first();
   const {results:trend}=await env.DB.prepare('SELECT substr(paid_at,1,10) AS day, COUNT(*) AS orders, SUM(amount_subtotal) AS sales FROM orders WHERE livemode=? AND paid_at>=? GROUP BY day ORDER BY day DESC LIMIT 90').bind(mode,since).all();
   const {results:orders}=await env.DB.prepare('SELECT * FROM orders WHERE livemode=? AND paid_at>=? ORDER BY paid_at DESC,session_id DESC LIMIT 200').bind(mode,since).all();
-  return json({mode:mode?'live':'test',since,price,costs,totals,trend,orders,ordersLimited:Number(totals?.orders)>200,asOf:now.toISOString()});
+  const goalProgress=[];
+  for(const goal of business.milestones||[]){
+   const end=goal.due+'T23:59:59.999Z';
+   const total=await env.DB.prepare(`SELECT COALESCE(SUM(MAX(0,amount_subtotal+amount_shipping-amount_refunded*1.0*(amount_subtotal+amount_shipping)/MAX(amount_total,1))),0) AS sales, COALESCE(SUM(CASE WHEN amount_total>amount_refunded THEN quantity ELSE 0 END),0) AS units, COALESCE(SUM(CASE WHEN amount_total>amount_refunded OR fulfilled_at IS NOT NULL THEN quantity*COALESCE(cost_unit_cents,?)+? ELSE 0 END),0) AS costs,COALESCE(SUM(amount_total*?/100+?),0) AS fees FROM orders WHERE livemode=1 AND paid_at>=? AND paid_at<=?`).bind(Math.round(costs.cogs*100),Math.round(business.postage*100),business.feePercent,Math.round(business.feeFixed*100),goal.start,end).first<{sales:number;units:number;costs:number;fees:number}>();
+   const ads=business.ads.filter(a=>a.date>=goal.start&&a.date<=goal.due).reduce((sum,a)=>sum+a.spend,0),overhead=business.expenses.filter(e=>e.date>=goal.start&&e.date<=goal.due&&['tools','other'].includes(e.category)).reduce((sum,e)=>sum+e.amount,0);
+   goalProgress.push({id:goal.id,sales:(total?.sales||0)/100,units:total?.units||0,profit:((total?.sales||0)-(total?.costs||0)-(total?.fees||0))/100-ads-overhead});
+  }
+  return json({goalProgress,mode:mode?'live':'test',since,price,costs,totals,trend,orders,ordersLimited:Number(totals?.orders)>200,asOf:now.toISOString()});
  }
  return json({error:'Not found.'},404);
 }

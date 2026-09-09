@@ -31,6 +31,7 @@
   "vars": {
     "EDITOR_EMAIL": "editor@example.test",
     "ADMIN_EMAILS": "",
+    "ADMIN_PASSWORD_HASH": "",
     "STRIPE_SECRET_KEY": "",
     "STRIPE_WEBHOOK_SECRET": "",
     "STRIPE_PRODUCT_ID": "",

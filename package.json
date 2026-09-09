@@ -11,7 +11,8 @@
     "dev:api": "wrangler dev --port 8787",
     "db:migrate": "wrangler d1 migrations apply DB --local",
     "test:payments": "node scripts/check-payments.mjs",
-    "test:business": "node scripts/check-business.mjs"
+    "test:business": "node scripts/check-business.mjs",
+    "test:admin-auth": "node scripts/check-admin-auth.mjs"
   },
   "repository": {
     "type": "git",
