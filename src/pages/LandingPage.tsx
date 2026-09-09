@@ -46,10 +46,7 @@ export default function LandingPage() {
               OUTSIDE.
             </p>
             <h1 id="hero-title">Learn How to Sling</h1>
-            <p className="hero-description">
-              A leather pouch. Two cords. A really good
-              <br className="desktop-break" /> reason to put your phone down.
-            </p>
+            <p className="hero-description">A leather pouch. Two cords.</p>
             <div className="hero-actions">
               <a className="button" href="#sling">
                 Get your sling <span>${PRICE}</span>
