@@ -4,9 +4,11 @@ import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import {
   ArrowLeft,
   ArrowRight,
+  ArrowUpRight,
   Check,
   ChevronRight,
   CreditCard,
+  Camera,
   LockKeyhole,
   Minus,
   Plus,
@@ -384,9 +386,14 @@ export default function Checkout() {
                 width="1536"
                 height="1024"
               />
-              <span>{quantity}</span>
+              <span
+                className="summary-quantity-badge"
+                aria-label={`${quantity} ${quantity === 1 ? "sling" : "slings"}`}
+              >
+                {quantity}
+              </span>
             </div>
-            <div>
+            <div className="summary-product-details">
               <h2>The David Sling</h2>
               <p>Leather & paracord</p>
               <span>${PRICE}.00 each</span>
@@ -437,6 +444,16 @@ export default function Checkout() {
             </div>
           </dl>
           <p className="handwritten summary-note">Good afternoons ahead.</p>
+          <a
+            className="slinging-club-link"
+            href="https://www.instagram.com/davidslingsclub/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Camera size={17} aria-hidden="true" />
+            Join the slinging club
+            <ArrowUpRight size={15} aria-hidden="true" />
+          </a>
           <div className="checkout-help">
             Need a hand?{" "}
             <a href="mailto:contact@david-slings.com">Say hello.</a>

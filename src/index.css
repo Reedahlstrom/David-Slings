@@ -1053,7 +1053,7 @@ input::placeholder {
   mix-blend-mode: multiply;
   border-radius: 3px;
 }
-.summary-image > span {
+.summary-quantity-badge {
   position: absolute;
   top: -8px;
   right: -8px;
@@ -1065,6 +1065,10 @@ input::placeholder {
   height: 23px;
   border-radius: 50%;
   font-size: 12px;
+  font-weight: 600;
+  line-height: 1;
+  margin: 0;
+  font-variant-numeric: tabular-nums;
 }
 .summary-product h2 {
   font-size: 24px;
@@ -1075,7 +1079,7 @@ input::placeholder {
   font-size: 12px;
   margin-top: 5px;
 }
-.summary-product > div > span {
+.summary-product-details > span {
   font-size: 13px;
   display: block;
   margin-top: 7px;
@@ -1136,6 +1140,20 @@ input::placeholder {
   margin-top: 26px;
   transform: rotate(-3deg);
   color: #7c8969;
+}
+.slinging-club-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: fit-content;
+  min-height: 44px;
+  margin: 15px auto 0;
+  font-size: 14px;
+  text-underline-offset: 4px;
+}
+.slinging-club-link:hover {
+  text-decoration: underline;
 }
 .checkout-help {
   text-align: center;
