@@ -8,9 +8,9 @@ export const defaults: SiteContent = {
  copy: Object.fromEntries(Object.entries(copyFields).map(([key,field])=>[key,field.defaultValue])),
  price:30, contactEmail:'contact@david-slings.com', instagram:'https://www.instagram.com/davidslingsclub/',
  sections:Object.keys(sectionNames),hiddenSections:[],
- media:{logo:'/images/david-slings-logo.png',hero:'/images/sling-split-pouch-hero.png',heroAlt:'Generated image of a split leather pouch sling with olive cords and a leather finger loop',heroPosition:50,product:'/images/sling-split-pouch-product.png',productAlt:'Generated product image of The David Sling with a split leather pouch',productPosition:50,poster:'/images/river-stones.jpg',video:'',photos:[
+ media:{logo:'/images/david-slings-logo.png',hero:'/images/sling-long-cords.png',heroAlt:'Generated image of a split leather pouch sling with olive cords and a leather finger loop',heroPosition:50,product:'/images/sling-long-cords.png',productAlt:'Generated product image of The David Sling with a split leather pouch',productPosition:50,poster:'/images/river-stones.jpg',video:'',photos:[
  {src:'/images/river-stones.jpg',alt:'Smooth stones beside a sunny creek',caption:'A good place to spend an afternoon.',position:50},
- {src:'/images/sling-split-pouch-product.png',alt:'Generated split-pouch leather and paracord sling',caption:'A little leather. A little paracord.',position:50},
+ {src:'/images/sling-long-cords.png',alt:'Generated split-pouch leather and paracord sling',caption:'A little leather. A little paracord.',position:50},
  {src:'/images/grassy-field.jpg',alt:'Open grassy hills in the afternoon light',caption:'See you out there.',position:50}]
  }
 };
@@ -38,10 +38,10 @@ export function validContent(value:unknown):value is SiteContent {
 }
 export function mergeContent(value:Partial<SiteContent>):SiteContent {
  const media={...defaults.media,...value.media};
- // Upgrade the original placeholder only; photos the owner uploads stay as saved.
- const original='/images/sling-illustration.png';
- if(media.hero===original){media.hero=defaults.media.hero;media.heroAlt=defaults.media.heroAlt;media.heroPosition=50;}
- if(media.product===original){media.product=defaults.media.product;media.productAlt=defaults.media.productAlt;media.productPosition=50;}
- media.photos=media.photos.map(photo=>photo.src===original?{...photo,src:defaults.media.product,alt:'Generated split-pouch leather and paracord sling',position:50}:photo);
+ // Upgrade earlier generated images; photos the owner uploads stay as saved.
+ const earlierImages=new Set(['/images/sling-illustration.png','/images/sling-split-pouch-hero.png','/images/sling-split-pouch-product.png']);
+ if(earlierImages.has(media.hero)){media.hero=defaults.media.hero;media.heroAlt=defaults.media.heroAlt;media.heroPosition=50;}
+ if(earlierImages.has(media.product)){media.product=defaults.media.product;media.productAlt=defaults.media.productAlt;media.productPosition=50;}
+ media.photos=media.photos.map(photo=>earlierImages.has(photo.src)?{...photo,src:defaults.media.product,alt:'Generated split-pouch leather and paracord sling',position:50}:photo);
  return {...defaults,...value,copy:{...defaults.copy,...value.copy},media};
 }
