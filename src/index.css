@@ -652,6 +652,10 @@ h2 {
   .site-header {
     height: 82px;
   }
+  .site-header .brand-logo {
+    width: 102px;
+    height: 68px;
+  }
   .wordmark {
     font-size: 26px;
   }
