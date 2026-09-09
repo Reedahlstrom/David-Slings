@@ -1,43 +1,29 @@
-# CLAUDE.md
+# David Slings
 
-## Project Overview
-
-David Slings is a single-product ecommerce site selling handcrafted slings. Dark, dramatic aesthetic inspired by David and Goliath.
-
-**Stack:** Vite 7 + React 19 + TypeScript, Supabase (auth + DB), Stripe (payments), Cloudflare Pages (hosting).
+Single-product storefront for a $30 handmade leather-and-paracord shepherd sling. The September 2026 redesign uses cream paper, dark green type, DM Serif Display, DM Sans, and small Caveat handwritten notes. Keep copy simple, personal, and short.
 
 ## Commands
 
-```bash
-npm run dev          # Vite dev server
-npm run build        # tsc -b && vite build
-npm run preview      # Preview production build
-npm run typecheck    # Type check only
-```
+- `npm run dev` — local Vite preview
+- `npm run build` — TypeScript check + production Vite build
+- `npm run typecheck` — TypeScript check
 
-## Architecture
+## Front-facing architecture
 
-- **Frontend:** `src/` — React SPA with Tailwind CSS v4, Framer Motion
-- **Pages:** LandingPage (customer-facing), CheckoutSuccess, AdminLogin, AdminDashboard
-- **Lib:** `src/lib/supabase.ts` (client), `src/lib/stripe.ts` (checkout redirect), `src/lib/cn.ts` (classnames)
-- **Backend:** Supabase Edge Functions in `supabase/functions/`
-  - `create-checkout-session` — creates Stripe Checkout Session
-  - `stripe-webhook` — handles payment completion, writes orders
-- **Database:** Supabase Postgres — `customers`, `orders`, `admin_users` tables with RLS
-- **Path alias:** `@` maps to `src/`
+- `src/pages/LandingPage.tsx` — storefront, photo carousel, product quantity, video
+- `src/pages/Checkout.tsx` — shipping, review, sample payment
+- `src/pages/CheckoutSuccess.tsx` — explicit preview confirmation; unverified real-payment visits never claim success
+- `src/pages/MediaStudio.tsx` — in-memory media draft editor with file import/export
+- `src/lib/storefront.tsx` — shared media, validation, canonical $30 price, preview setting
+- `public/storefront.json` — published media manifest; downloaded editor files can replace it
+- `src/index.css` — shared storefront and checkout styling; Tailwind reset is layered
 
-## Patterns
+Preview mode is default. `VITE_STOREFRONT_PREVIEW=false` hides preview tools; it does not enable payments. Keep payment entry disabled until Stripe is deliberately integrated and verified. Do not collect card details in the React app. Do not imply a real order exists based solely on a query parameter.
 
-- Tailwind CSS v4 with `@tailwindcss/vite` plugin
-- Custom theme tokens in `src/index.css` (gold, stone, cream palette)
-- Fonts: Cinzel (headings), Inter (body)
-- `lucide-react` for icons, `framer-motion` for animations
-- No cart — single product, "Buy Now" → Stripe Checkout redirect
-- No customer accounts — only admin auth via Supabase
-- Admin dashboard at `/admin` (protected), login at `/admin/login`
+## Existing backend (future work)
+
+Supabase auth/database and Edge Functions, Stripe payments, and the original admin routes are retained. No backend or fulfillment changes were made in this design pass. Read README.md launch notes before enabling real checkout. The webhook currently needs reliability work.
 
 ## Hosting
 
-- **Cloudflare Pages** for frontend (static build from `dist/`)
-- **Supabase Edge Functions** for backend API
-- **Domain:** david-slings.com (GoDaddy DNS → Cloudflare)
+The existing domain is david-slings.com; the user also mentioned davidslings.com, so confirm the domain before changing DNS or canonical URLs. `.openai/hosting.json` identifies a separate private Sites preview. Preserve the GitHub origin and use feature branches for review.

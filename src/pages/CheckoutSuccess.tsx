@@ -1,84 +1,89 @@
-import { useSearchParams, Link } from 'react-router-dom'
-import { motion } from 'framer-motion'
-import { CheckCircle, ArrowLeft, Package } from 'lucide-react'
-
+import { Link, useLocation, useSearchParams } from "react-router-dom";
+import { ArrowUpRight, Check, Package } from "lucide-react";
+import { IS_PREVIEW, PRICE, useMedia } from "@/lib/storefront";
 export default function CheckoutSuccess() {
-  const [params] = useSearchParams()
-  const sessionId = params.get('session_id')
-
+  const [params] = useSearchParams();
+  const { state } = useLocation();
+  const { media } = useMedia();
+  const preview =
+    IS_PREVIEW && params.get("preview") === "1" && state?.preview === true;
+  const quantity =
+    Number.isInteger(state?.quantity) &&
+    state.quantity > 0 &&
+    state.quantity <= 10
+      ? state.quantity
+      : 1;
   return (
-    <div className="min-h-screen bg-stone flex items-center justify-center px-6">
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
-        className="max-w-md w-full text-center"
-      >
-        {/* Success icon */}
-        <motion.div
-          initial={{ scale: 0 }}
-          animate={{ scale: 1 }}
-          transition={{ delay: 0.3, type: 'spring', stiffness: 200 }}
-          className="w-20 h-20 mx-auto mb-8 border-2 border-gold/40 rounded-full flex items-center justify-center"
-        >
-          <CheckCircle size={36} className="text-gold" />
-        </motion.div>
-
-        <h1 className="font-[Cinzel] text-cream text-3xl md:text-4xl font-bold mb-4">
-          Order Confirmed
-        </h1>
-
-        <div className="w-12 h-px bg-gold/40 mx-auto my-6" />
-
-        <p className="text-stone-light text-base leading-relaxed mb-8">
-          Your David Sling is being prepared for shipment. You'll receive a
-          confirmation email with tracking details once it ships.
-        </p>
-
-        {/* Order details */}
-        <div className="bg-stone-warm border border-gold/10 p-6 text-left mb-8">
-          <div className="flex items-center gap-2 mb-4">
-            <Package size={16} className="text-gold/60" />
-            <span className="text-cream text-xs tracking-[0.2em] uppercase font-semibold">
-              What's Next
-            </span>
-          </div>
-          <ul className="space-y-3 text-stone-light text-sm">
-            <li className="flex items-start gap-3">
-              <span className="w-5 h-5 bg-gold/10 text-gold text-xs flex items-center justify-center shrink-0 mt-0.5 font-semibold">
-                1
-              </span>
-              Order confirmation email sent to your inbox
-            </li>
-            <li className="flex items-start gap-3">
-              <span className="w-5 h-5 bg-gold/10 text-gold text-xs flex items-center justify-center shrink-0 mt-0.5 font-semibold">
-                2
-              </span>
-              Your sling is handcrafted (1-2 business days)
-            </li>
-            <li className="flex items-start gap-3">
-              <span className="w-5 h-5 bg-gold/10 text-gold text-xs flex items-center justify-center shrink-0 mt-0.5 font-semibold">
-                3
-              </span>
-              Ships with tracking (3-5 business days delivery)
-            </li>
-          </ul>
-        </div>
-
-        {sessionId && (
-          <p className="text-stone-light/40 text-xs mb-6 font-mono">
-            Session: {sessionId.slice(0, 20)}...
-          </p>
-        )}
-
-        <Link
-          to="/"
-          className="inline-flex items-center gap-2 text-gold text-sm tracking-[0.15em] uppercase hover:text-gold-light transition-colors"
-        >
-          <ArrowLeft size={14} />
-          Back to Home
+    <div className="confirmation-page">
+      <header className="checkout-header shell">
+        <Link className="wordmark" to="/">
+          david slings<span className="brand-dot">✳</span>
         </Link>
-      </motion.div>
+      </header>
+      <main className="confirmation-card">
+        {preview ? (
+          <>
+            <p className="preview-notice">
+              Preview complete. No order was placed or payment taken.
+            </p>
+            <span className="confirmation-check">
+              <Check size={29} />
+            </span>
+            <p className="eyebrow">THIS IS THE ORDER CONFIRMATION DESIGN</p>
+            <h1>Good times ahead.</h1>
+            <p className="confirmation-description">
+              Your sling’s next stop? Outside.
+            </p>
+            <div className="confirmation-product">
+              <img
+                src={media.hero}
+                alt="David Sling illustration"
+                width="1536"
+                height="1024"
+              />
+              <div>
+                <h2>{quantity} × The David Sling</h2>
+                <p>${quantity * PRICE}.00 · Free shipping</p>
+                <span>Sample order</span>
+              </div>
+            </div>
+            <div className="confirmation-next">
+              <Package size={21} />
+              <div>
+                <h2>Here’s what comes next.</h2>
+                <p>
+                  For a real order, we’ll confirm your purchase and send
+                  tracking when your sling ships.
+                </p>
+              </div>
+            </div>
+            <p className="handwritten">Thanks for coming along.</p>
+            <Link className="button" to="/">
+              Back outside <ArrowUpRight size={18} />
+            </Link>
+            <Link className="restart-preview" to="/checkout">
+              Try checkout again
+            </Link>
+          </>
+        ) : (
+          <>
+            <span className="confirmation-check">
+              <Package size={29} />
+            </span>
+            <h1>Checking on your order?</h1>
+            <p className="confirmation-description">
+              We can’t confirm a payment from this page yet. If you completed a
+              purchase, check your receipt or get in touch and we’ll help.
+            </p>
+            <a className="button" href="mailto:contact@david-slings.com">
+              Ask about your order <ArrowUpRight size={18} />
+            </a>
+            <Link className="restart-preview" to="/">
+              Back to the slings
+            </Link>
+          </>
+        )}
+      </main>
     </div>
-  )
+  );
 }

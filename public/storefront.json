@@ -1,0 +1,21 @@
+{
+  "hero": "/images/sling-illustration.png",
+  "photos": [
+    {
+      "src": "/images/river-stones.jpg",
+      "alt": "Smooth stones beside a sunny creek",
+      "caption": "A good place to spend an afternoon."
+    },
+    {
+      "src": "/images/sling-illustration.png",
+      "alt": "An illustrated leather and paracord shepherd sling",
+      "caption": "A little leather. A little paracord."
+    },
+    {
+      "src": "/images/grassy-field.jpg",
+      "alt": "Open grassy hills in the afternoon light",
+      "caption": "See you out there."
+    }
+  ],
+  "video": ""
+}
