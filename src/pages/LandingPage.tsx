@@ -45,7 +45,7 @@ export default function LandingPage() {
               <span className="tiny-sun">✳</span> MADE BY HAND. MEANT FOR
               OUTSIDE.
             </p>
-            <h1 id="hero-title">Go sling</h1>
+            <h1 id="hero-title">The david sling</h1>
             <p className="hero-description">
               A leather pouch. Two cords. A really good
               <br className="desktop-break" /> reason to put your phone down.
