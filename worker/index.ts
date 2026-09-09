@@ -45,6 +45,8 @@ export default {
  return new Response(request.method==='HEAD'?null:object.body,{headers});
  }
  if(path.startsWith('/api/'))return json({error:'Not found'},404);
+ // Sites provisions assets independently of local Wrangler SPA settings.
+ if((request.method==='GET'||request.method==='HEAD')&&['/checkout','/studio','/edit','/success','/admin','/admin/login'].includes(path))return env.ASSETS.fetch(new Request(new URL('/',url),request));
  return env.ASSETS.fetch(request);
  }catch(error){if(error instanceof RangeError)return json({error:'Choose an image smaller than 8 MB.'},413);console.error('Site request failed',path,error instanceof Error?error.message:'Unknown error');return json({error:'We couldn’t save right now. Your draft is still here. Try again.'},500);}
  }
