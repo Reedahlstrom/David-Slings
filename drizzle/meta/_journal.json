@@ -8,6 +8,13 @@
       "when": 1788968937821,
       "tag": "0000_fresh_smiling_tiger",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1788972425322,
+      "tag": "0001_thin_betty_ross",
+      "breakpoints": true
     }
   ]
 }

@@ -503,5 +503,55 @@
     "group": "Checkout",
     "label": "Payment step",
     "defaultValue": "Payment"
+  },
+  "checkout.order-heading": {
+    "group": "Checkout",
+    "label": "CHECKOUT",
+    "defaultValue": "CHECKOUT"
+  },
+  "checkout.ready-heading": {
+    "group": "Checkout",
+    "label": "Your sling.",
+    "defaultValue": "Your sling."
+  },
+  "checkout.secure-description": {
+    "group": "Checkout",
+    "label": "Add your address and pay on the next page.",
+    "defaultValue": "Add your address and pay on the next page."
+  },
+  "checkout.payment-heading": {
+    "group": "Checkout",
+    "label": "Payment",
+    "defaultValue": "Payment"
+  },
+  "checkout.payment-description": {
+    "group": "Checkout",
+    "label": "Pay by card using Stripe’s secure checkout.",
+    "defaultValue": "Pay by card using Stripe’s secure checkout."
+  },
+  "checkout.returns-heading": {
+    "group": "Checkout",
+    "label": "Returns",
+    "defaultValue": "Returns"
+  },
+  "checkout.total-heading": {
+    "group": "Checkout",
+    "label": "Total before tax",
+    "defaultValue": "Total before tax"
+  },
+  "confirmation.paid-heading": {
+    "group": "Confirmation",
+    "label": "PAYMENT RECEIVED",
+    "defaultValue": "PAYMENT RECEIVED"
+  },
+  "confirmation.confirmed-heading": {
+    "group": "Confirmation",
+    "label": "Thanks for your order.",
+    "defaultValue": "Thanks for your order."
+  },
+  "confirmation.confirmed-description": {
+    "group": "Confirmation",
+    "label": "We have your order and shipping details.",
+    "defaultValue": "We have your order and shipping details."
   }
 }

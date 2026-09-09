@@ -11,22 +11,20 @@ Single-product storefront for a $30 handmade leather-and-paracord shepherd sling
 ## Front-facing architecture
 
 - `src/pages/LandingPage.tsx` — storefront, photo carousel, product quantity, video
-- `src/pages/Checkout.tsx` — shipping, review, sample payment
-- `src/pages/CheckoutSuccess.tsx` — explicit preview confirmation; unverified real-payment visits never claim success
+- `src/pages/Checkout.tsx` — order summary and hosted Stripe Checkout
+- `src/pages/CheckoutSuccess.tsx` — server-verified payment confirmation; unverified visits never claim success
 - `src/pages/MediaStudio.tsx` — owner sign-in entry for the persistent site editor
 - `src/lib/storefront.tsx` — shared content provider, owner editing state, save/revision handling, preview setting
 - `public/storefront.json` — published media manifest; downloaded editor files can replace it
 - `src/index.css` — shared storefront and checkout styling; Tailwind reset is layered
 
-Preview mode is default. `VITE_STOREFRONT_PREVIEW=false` disables sample checkout completion; it does not enable payments. Keep payment entry disabled until Stripe is deliberately integrated and verified. Do not collect card details in the React app. Do not imply a real order exists based solely on a query parameter.
+Payments are disabled by default through `PAYMENTS_MODE=off`. `worker/payments.ts` handles canonical pricing, hosted Checkout, signed webhooks, order persistence, refunds, and owner-only fulfillment endpoints. Stripe keys and signing secrets belong in Sites runtime secrets, never source. Run `npm run test:payments` for payment integrity checks. Do not collect card or banking details in the React app.
 
-## Existing backend (future work)
-
-Supabase auth/database and Edge Functions, Stripe payments, and the original admin routes are retained. No backend or fulfillment changes were made in this design pass. Read README.md launch notes before enabling real checkout. The webhook currently needs reliability work.
+The original Supabase admin/functions are retained legacy code, not part of the current flow. The full admin UI remains deferred; use Stripe Dashboard for orders. See README for runtime configuration and launch requirements.
 
 ## Hosting
 
-The existing domain is david-slings.com; the user also mentioned davidslings.com, so confirm the domain before changing DNS or canonical URLs. `.openai/hosting.json` identifies a separate private Sites preview. Preserve the GitHub origin and use feature branches for review.
+The user confirmed the production domain as david-slings.com and authorized publishing the redesigned store there. `.openai/hosting.json` identifies its Sites project. Preserve the GitHub origin and use feature branches for review.
 
 ## Site editor
 

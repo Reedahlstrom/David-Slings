@@ -1733,3 +1733,14 @@ body.site-editing { padding-right:370px; }
 @media(max-width:1000px){body.site-editing{padding-right:340px}.site-editor{width:340px}.site-editing .hero{grid-template-columns:1fr}.site-editing .hero h1{font-size:60px}.site-editing .checkout-grid{grid-template-columns:1fr}.site-editing .hero-art{max-width:100%}}
 @media(max-width:650px){body.site-editing{padding-right:0;padding-bottom:55vh}.site-editor{inset:auto 0 0;width:100%;height:55vh;border-top:1px solid #d4d9cb}.editor-heading{padding-top:10px}.editor-heading h2{font-size:23px}.editor-eyebrow,.editor-intro,.editor-page{display:none!important}.editor-tabs{margin-top:8px}.editor-body{padding:14px 20px}.editor-save{padding:8px 20px}.editor-save p{margin-bottom:5px}}
 .button span.editable-copy { padding-left:0; border-left:0; }
+
+.checkout-start > .eyebrow { margin-top:35px; }
+.checkout-start h1 { margin:15px 0 12px; }
+.checkout-start .checkout-subtitle { max-width:400px; }
+.checkout-details { display:grid; gap:25px; margin:30px 0; border-top:1px solid var(--line); border-bottom:1px solid var(--line); padding:28px 0; }
+.checkout-details > div { display:flex; align-items:flex-start; gap:15px; }
+.checkout-details h2,.checkout-policy h2 { font-size:15px; margin:0 0 6px; font-family:'DM Sans',sans-serif; }
+.checkout-details p,.checkout-policy p { font-size:14px; color:var(--muted); line-height:1.6; margin:0; white-space:pre-line; }
+.checkout-info { padding:15px; border:1px solid var(--line); border-radius:4px; margin:20px 0; font-size:14px; }
+.checkout-policy { border-top:1px solid var(--line); padding-top:22px; margin-top:28px; }
+.confirmation-help { margin-top:28px; font-size:13px; text-decoration:underline; }

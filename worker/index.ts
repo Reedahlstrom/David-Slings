@@ -1,17 +1,12 @@
 import { defaults, mergeContent, validContent } from '../shared/content';
-const json=(data:unknown,status=200)=>Response.json(data,{status,headers:{'Cache-Control':'no-store','X-Content-Type-Options':'nosniff'}});
-const canEdit=(r:Request,e:Env)=>!!r.headers.get('oai-authenticated-user-id')&&!!e.EDITOR_EMAIL&&r.headers.get('oai-authenticated-user-email')?.toLowerCase()===e.EDITOR_EMAIL.toLowerCase();
-async function bytes(request:Request,limit:number){
- if(Number(request.headers.get('content-length')||0)>limit)throw new RangeError('File too large');
- const reader=request.body?.getReader();if(!reader)throw new Error('Empty upload');
- const chunks:Uint8Array[]=[];let size=0;
- while(true){const {done,value}=await reader.read();if(done)break;size+=value.byteLength;if(size>limit){await reader.cancel();throw new RangeError('File too large');}chunks.push(value);}
- const result=new Uint8Array(size);let offset=0;for(const chunk of chunks){result.set(chunk,offset);offset+=chunk.length;}return result;
-}
+import { json, canEdit, readBytes as bytes } from './http';
+import { handlePayments } from './payments';
 export default {
  async fetch(request:Request,env:Env):Promise<Response>{
  const url=new URL(request.url),path=url.pathname;
  try{
+ const paymentResponse = await handlePayments(request, env);
+ if(paymentResponse) return paymentResponse;
  if(path==='/api/editor'&&request.method==='GET')return json({canEdit:canEdit(request,env)});
  if(path==='/api/content'&&request.method==='GET'){
  const row=await env.DB.prepare('SELECT content, revision FROM site_content WHERE id = ?').bind('storefront').first<{content:string;revision:number}>();
@@ -46,7 +41,7 @@ export default {
  }
  if(path.startsWith('/api/'))return json({error:'Not found'},404);
  // Sites provisions assets independently of local Wrangler SPA settings.
- if((request.method==='GET'||request.method==='HEAD')&&['/checkout','/studio','/edit','/success','/admin','/admin/login'].includes(path))return env.ASSETS.fetch(new Request(new URL('/',url),request));
+ if((request.method==='GET'||request.method==='HEAD')&&['/checkout','/studio','/edit','/success','/admin','/admin/login','/orders'].includes(path))return env.ASSETS.fetch(new Request(new URL('/',url),request));
  return env.ASSETS.fetch(request);
  }catch(error){if(error instanceof RangeError)return json({error:'Choose an image smaller than 8 MB.'},413);console.error('Site request failed',path,error instanceof Error?error.message:'Unknown error');return json({error:'We couldn’t save right now. Your draft is still here. Try again.'},500);}
  }
