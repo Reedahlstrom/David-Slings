@@ -64,6 +64,7 @@ try {
     assert.equal(order.email,'buyer@example.test');
     assert.equal(JSON.parse(order.shipping_address).postal_code,'84101');
     assert.equal(order.amount_total,6000);
+    assert.equal(order.cost_unit_cents,645);
     assert.equal((await DB.prepare('SELECT COUNT(*) AS n FROM orders').first()).n,1);
   });
   await check('public confirmation exposes no customer information; orders require owner',async()=>{
@@ -81,6 +82,7 @@ try {
     assert.equal((await run(request('/api/orders/fulfill','POST',body,owner))).status,200);
     assert.equal((await event('checkout.session.completed','evt_paid_again')).status,200);
     assert.equal((await DB.prepare('SELECT status FROM orders').first()).status,'shipped');
+    assert.ok((await DB.prepare('SELECT fulfilled_at FROM orders').first()).fulfilled_at);
     assert.equal((await run(request('/api/orders/fulfill','POST',body,owner))).status,409);
   });
   await check('refund retries and late payment notifications preserve refunded status',async()=>{

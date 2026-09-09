@@ -11,8 +11,8 @@ export default function SiteEditor(){
  const navigate=useNavigate(),location=useLocation(),fieldRef=useRef<HTMLTextAreaElement>(null);
  useEffect(()=>{if(selected){setTab('Text');setSearch('');setGroup(copyFields[selected as keyof typeof copyFields]?.group||'Home');}},[selected,selection]);
  useEffect(()=>{if(selected&&editing){fieldRef.current?.focus();fieldRef.current?.scrollIntoView({block:'nearest'});}},[selected,selection,editing,tab]);
- if(!site.canEdit)return null;
- if(!editing)return <div className="editor-shortcuts"><button onClick={()=>site.setEditing(true)}>✎ Edit site</button><button onClick={()=>navigate('/admin')}>Orders</button></div>;
+ if(!site.canEdit||location.pathname==='/admin')return null;
+ if(!editing)return <div className="editor-shortcuts"><button onClick={()=>site.setEditing(true)}>✎ Edit site</button><button onClick={()=>navigate('/admin')}>Workspace</button></div>;
  const setMedia=(patch:Partial<typeof content.media>)=>setContent(c=>({...c,media:{...c.media,...patch}}));
  const setPhoto=(index:number,patch:Partial<Photo>)=>setContent(c=>({...c,media:{...c.media,photos:c.media.photos.map((p,i)=>i===index?{...p,...patch}:p)}}));
  async function upload(file:File|undefined,target:string){

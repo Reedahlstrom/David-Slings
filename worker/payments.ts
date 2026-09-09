@@ -2,6 +2,8 @@ import Stripe from 'stripe';
 import { defaults, mergeContent } from '../shared/content';
 import type { CheckoutConfig } from '../shared/commerce';
 import { canEdit, json, readBytes } from './http';
+import { readBusiness } from './business';
+import { unitCosts } from '../shared/business';
 
 const paymentIsLive = (env: Env) => /^[sr]k_live_/.test(env.STRIPE_SECRET_KEY);
 
@@ -38,8 +40,12 @@ export async function recordPaidOrder(session: Stripe.Checkout.Session, env: Env
   const {quantity,unitAmount,shippingAmount,shipping} = validatePaidSession(session,env);
   const now = new Date().toISOString();
   const paymentIntent = typeof session.payment_intent === 'string' ? session.payment_intent : session.payment_intent?.id ?? null;
-  const insert = env.DB.prepare('INSERT INTO orders (session_id,reference,payment_intent_id,livemode,status,quantity,unit_amount,amount_subtotal,amount_shipping,amount_tax,amount_total,amount_refunded,currency,email,shipping_name,shipping_address,paid_at,updated_at) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) ON CONFLICT(session_id) DO NOTHING').bind(session.id,`DS-${session.id.slice(-10).toUpperCase()}`,paymentIntent,Number(session.livemode),'paid',quantity,unitAmount,session.amount_subtotal,shippingAmount,session.total_details?.amount_tax??0,session.amount_total,0,session.currency,session.customer_details!.email,shipping.name,JSON.stringify(shipping.address),now,now);
+  const {business} = await readBusiness(env);
+  const costUnitCents = Math.round(unitCosts(business,unitAmount/100).cogs*100);
+  const insert = env.DB.prepare('INSERT INTO orders (session_id,reference,payment_intent_id,livemode,status,quantity,unit_amount,amount_subtotal,amount_shipping,amount_tax,amount_total,amount_refunded,currency,email,shipping_name,shipping_address,paid_at,updated_at,cost_unit_cents) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?) ON CONFLICT(session_id) DO NOTHING').bind(session.id,`DS-${session.id.slice(-10).toUpperCase()}`,paymentIntent,Number(session.livemode),'paid',quantity,unitAmount,session.amount_subtotal,shippingAmount,session.total_details?.amount_tax??0,session.amount_total,0,session.currency,session.customer_details!.email,shipping.name,JSON.stringify(shipping.address),now,now,costUnitCents);
   const statements = [insert];
+  // A delayed webhook must use Stripe’s payment event time, not delivery time.
+  if (event && Number.isFinite(event.created)) statements.push(env.DB.prepare('UPDATE orders SET paid_at = ? WHERE session_id = ?').bind(new Date(event.created*1000).toISOString(),session.id));
   if (event) statements.push(env.DB.prepare('INSERT INTO stripe_events (id,type,processed_at) VALUES (?,?,?) ON CONFLICT(id) DO NOTHING').bind(event.id,event.type,now));
   await env.DB.batch(statements);
 }
@@ -135,7 +141,7 @@ export async function handlePayments(request: Request, env: Env, getStripe = str
       let input;
       try {input=JSON.parse(new TextDecoder().decode(await readBytes(request,4096)));} catch{return json({error:'Invalid request.'},400);}
       if (!input || typeof input.sessionId!=='string'||typeof input.trackingNumber!=='string'||input.trackingNumber.length>120) return json({error:'Enter a valid tracking number.'},400);
-      const result = await env.DB.prepare("UPDATE orders SET status = 'shipped', tracking_number = ?, updated_at = ? WHERE session_id = ? AND status = 'paid' AND livemode = ? RETURNING reference").bind(input.trackingNumber.trim(),new Date().toISOString(),input.sessionId,Number(paymentIsLive(env))).first();
+      const result = await env.DB.prepare("UPDATE orders SET status = 'shipped', tracking_number = ?, fulfilled_at = COALESCE(fulfilled_at, ?), updated_at = ? WHERE session_id = ? AND status = 'paid' AND livemode = ? RETURNING reference").bind(input.trackingNumber.trim(),new Date().toISOString(),new Date().toISOString(),input.sessionId,input.mode==='live'?1:input.mode==='test'?0:Number(paymentIsLive(env))).first();
       return result ? json({saved:true}) : json({error:'This order has already changed. Refresh the list.'},409);
     }
     return json({error:'Method not allowed.'},405);

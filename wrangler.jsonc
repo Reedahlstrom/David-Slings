@@ -30,6 +30,7 @@
   ],
   "vars": {
     "EDITOR_EMAIL": "editor@example.test",
+    "ADMIN_EMAILS": "",
     "STRIPE_SECRET_KEY": "",
     "STRIPE_WEBHOOK_SECRET": "",
     "STRIPE_PRODUCT_ID": "",

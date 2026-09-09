@@ -1,5 +1,5 @@
 export const json = (value: unknown, status = 200) => Response.json(value, {status, headers: {'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff', 'Referrer-Policy': 'no-referrer'}});
-export const canEdit = (request: Request, env: Env) => !!request.headers.get('oai-authenticated-user-id') && !!env.EDITOR_EMAIL && request.headers.get('oai-authenticated-user-email')?.toLowerCase() === env.EDITOR_EMAIL.toLowerCase();
+export const canEdit = (request: Request, env: Env) => !!request.headers.get('oai-authenticated-user-id') && [env.EDITOR_EMAIL,...(env.ADMIN_EMAILS||'').split(',')].map(email=>email?.trim().toLowerCase()).filter(Boolean).includes(request.headers.get('oai-authenticated-user-email')?.toLowerCase()||'');
 export async function readBytes(request: Request, limit: number) {
   if (Number(request.headers.get('content-length') || 0) > limit) throw new RangeError('Request too large');
   const reader = request.body?.getReader();

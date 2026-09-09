@@ -1,10 +1,13 @@
 import { defaults, mergeContent, validContent } from '../shared/content';
 import { json, canEdit, readBytes as bytes } from './http';
 import { handlePayments } from './payments';
+import { handleBusiness } from './business';
 export default {
  async fetch(request:Request,env:Env):Promise<Response>{
  const url=new URL(request.url),path=url.pathname;
  try{
+ const businessResponse = await handleBusiness(request,env);
+ if(businessResponse) return businessResponse;
  const paymentResponse = await handlePayments(request, env);
  if(paymentResponse) return paymentResponse;
  if(path==='/api/editor'&&request.method==='GET')return json({canEdit:canEdit(request,env)});

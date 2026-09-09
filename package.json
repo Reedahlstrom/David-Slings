@@ -10,7 +10,8 @@
     "typecheck": "tsc -b --noEmit && tsc -p tsconfig.worker.json",
     "dev:api": "wrangler dev --port 8787",
     "db:migrate": "wrangler d1 migrations apply DB --local",
-    "test:payments": "node scripts/check-payments.mjs"
+    "test:payments": "node scripts/check-payments.mjs",
+    "test:business": "node scripts/check-business.mjs"
   },
   "repository": {
     "type": "git",

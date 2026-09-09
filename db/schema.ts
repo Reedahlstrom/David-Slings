@@ -22,8 +22,14 @@ export const orders = sqliteTable('orders', {
   shippingAddress: text('shipping_address').notNull(),
   trackingNumber: text('tracking_number'),
   paidAt: text('paid_at').notNull(),
+  fulfilledAt: text('fulfilled_at'),
+  costUnitCents: integer('cost_unit_cents'),
   updatedAt: text('updated_at').notNull(),
 });
 export const stripeEvents = sqliteTable('stripe_events', {
   id: text('id').primaryKey(), type: text('type').notNull(), processedAt: text('processed_at').notNull(),
+});
+
+export const businessWorkspace = sqliteTable('business_workspace', {
+ id:text('id').primaryKey(),content:text('content').notNull(),revision:integer('revision').notNull(),updatedAt:text('updated_at').notNull(),updatedBy:text('updated_by').notNull(),
 });
