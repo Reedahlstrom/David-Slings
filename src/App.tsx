@@ -1,7 +1,8 @@
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { lazy, Suspense, useEffect } from "react";
 import LandingPage from "./pages/LandingPage";
-import { MediaProvider, IS_PREVIEW } from "./lib/storefront";
+import { MediaProvider } from "./lib/storefront";
+import SiteEditor from "./components/SiteEditor";
 const Checkout = lazy(() => import("./pages/Checkout"));
 const MediaStudio = lazy(() => import("./pages/MediaStudio"));
 const CheckoutSuccess = lazy(() => import("./pages/CheckoutSuccess"));
@@ -34,13 +35,15 @@ export default function App() {
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/checkout" element={<Checkout />} />
-          {IS_PREVIEW && <Route path="/studio" element={<MediaStudio />} />}
+          <Route path="/studio" element={<MediaStudio />} />
+          <Route path="/edit" element={<MediaStudio />} />
           <Route path="/success" element={<CheckoutSuccess />} />
           <Route path="/admin/login" element={<AdminLogin />} />
           <Route path="/admin" element={<AdminDashboard />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </Suspense>
+      <SiteEditor />
     </MediaProvider>
   );
 }

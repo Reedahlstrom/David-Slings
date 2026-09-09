@@ -1,3 +1,4 @@
+import { Copy, Section, useCopy } from "@/lib/storefront";
 import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import {
@@ -12,10 +13,12 @@ import {
 } from "lucide-react";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
-import { PRICE, IS_PREVIEW, useMedia, videoEmbed } from "@/lib/storefront";
+import { useMedia, videoEmbed } from "@/lib/storefront";
 
 export default function LandingPage() {
-  const { media } = useMedia();
+  const t=useCopy();
+  const { media, content } = useMedia();
+  const PRICE = content.price;
   const track = useRef<HTMLDivElement>(null);
   const [photoIndex, setPhotoIndex] = useState(0);
   const [quantity, setQuantity] = useState(1);
@@ -35,47 +38,10 @@ export default function LandingPage() {
         behavior: "smooth",
       });
   }
-  return (
-    <>
-      <Header />
-      <main>
-        <section className="hero shell" aria-labelledby="hero-title">
-          <div className="hero-copy">
-            <p className="eyebrow">
-              <span className="tiny-sun">✳</span> MADE BY HAND. MEANT FOR
-              OUTSIDE.
-            </p>
-            <h1 id="hero-title">Made for a good time.</h1>
-            <p className="hero-description">A leather pouch. Two cords.</p>
-            <div className="hero-actions">
-              <a className="button" href="#sling">
-                Get your sling <span>${PRICE}</span>
-                <ArrowUpRight size={19} />
-              </a>
-              <a className="text-link" href="#how-to">
-                How does it work? <ArrowDown size={15} />
-              </a>
-            </div>
-            <p className="handwritten hero-note">Go sling.</p>
-          </div>
-          <div className="hero-art">
-            <div className="art-label">THE ORIGINAL SHEPHERD’S SLING</div>
-            <img
-              src={media.hero}
-              alt="Illustration of a leather pouch and paracord shepherd sling"
-              fetchPriority="high"
-              width="1536"
-              height="1024"
-            />
-            <div className="art-bottom">
-              <span>Leather + paracord</span>
-              <span className="handwritten">Made for a good afternoon ↗</span>
-            </div>
-          </div>
-        </section>
-        <section className="photo-section" aria-label="A little time outside">
+  const sections: Record<string, React.ReactNode> = {
+    photos: <Section key="photos" name="photos"><section className="photo-section" aria-label="A little time outside">
           <div className="section-intro shell">
-            <p className="eyebrow">LESS SCROLLING. MORE SLINGING.</p>
+            <p className="eyebrow"><Copy field="home.less-scrolling-more-slinging" /></p>
             <div className="carousel-controls">
               <span aria-live="polite">
                 {String(photoIndex + 1).padStart(2, "0")} /{" "}
@@ -127,6 +93,7 @@ export default function LandingPage() {
                   <img
                     src={photo.src}
                     alt={photo.alt}
+                    style={{objectPosition:`50% ${photo.position}%`}}
                     loading="lazy"
                     width="1000"
                     height="700"
@@ -140,46 +107,42 @@ export default function LandingPage() {
             ))}
           </div>
         </section>
-        <section
+        </Section>,
+    product: <Section key="product" name="product"><section
           className="product-section shell"
           id="sling"
           aria-labelledby="product-title"
         >
           <div className="product-visual">
             <img
-              src={media.hero}
-              alt="The simple leather and paracord sling design"
+              src={media.product}
+              alt={media.productAlt}
+              style={{objectPosition:`50% ${media.productPosition}%`}}
               loading="lazy"
               width="1536"
               height="1024"
             />
             <span className="handwritten product-note">
-              Yep, that’s the whole thing.
-            </span>
+              <Copy field="home.yep-that-s-the-whole-thing" /></span>
           </div>
           <div className="product-copy">
-            <p className="eyebrow">ONE SLING. ENDLESS AFTERNOONS.</p>
+            <p className="eyebrow"><Copy field="home.one-sling-endless-afternoons" /></p>
             <div className="product-title-row">
-              <h2 id="product-title">The David Sling</h2>
+              <h2 id="product-title"><Copy field="home.the-david-sling" /></h2>
               <span className="product-price">${PRICE}</span>
             </div>
             <p>
-              A handmade shepherd’s sling, made from leather and paracord. Small
-              enough for your pocket. Way more fun outside of it.
-            </p>
+              <Copy field="home.a-handmade-shepherd-s-sling-made-from-leather-and-parac" /></p>
             <ul className="product-details">
               <li>
                 <Check size={15} />
-                Leather pouch & paracord
-              </li>
+                <Copy field="home.leather-pouch-paracord" /></li>
               <li>
                 <Check size={15} />
-                Made by hand
-              </li>
+                <Copy field="home.made-by-hand" /></li>
               <li>
                 <Check size={15} />
-                No batteries. Obviously.
-              </li>
+                <Copy field="home.no-batteries-obviously" /></li>
             </ul>
             <div className="buy-row">
               <div className="quantity-control" aria-label="Sling quantity">
@@ -200,29 +163,28 @@ export default function LandingPage() {
                 </button>
               </div>
               <Link className="button" to={`/checkout?quantity=${quantity}`}>
-                Get {quantity === 1 ? "a sling" : `${quantity} slings`}{" "}
+                <Copy field="home.get" /> {quantity === 1 ? t("home.sling-single") : `${quantity} ${t("home.sling-plural")}`}{" "}
                 <span>${PRICE * quantity}</span>
                 <ArrowUpRight size={18} />
               </Link>
             </div>
-            <p className="small-note">Free shipping. Just pick a good spot.</p>
+            <p className="small-note"><Copy field="home.free-shipping-just-pick-a-good-spot" /></p>
           </div>
         </section>
-        <section
+        </Section>,
+    video: <Section key="video" name="video"><section
           className="how-section shell"
           id="how-to"
           aria-labelledby="how-title"
         >
           <div className="how-heading">
             <div>
-              <p className="eyebrow">A LITTLE PRACTICE GOES A LONG WAY.</p>
-              <h2 id="how-title">Get the hang of it.</h2>
+              <p className="eyebrow"><Copy field="home.a-little-practice-goes-a-long-way" /></p>
+              <h2 id="how-title"><Copy field="home.get-the-hang-of-it" /></h2>
             </div>
             <p>
-              Your first throw probably won’t be your best.
-              <br />
-              That’s kind of the fun of it.
-            </p>
+              <Copy field="home.your-first-throw-probably-won-t-be-your-best" /><br />
+              <Copy field="home.that-s-kind-of-the-fun-of-it" /></p>
           </div>
           <div className="video-panel">
             {embed && playing ? (
@@ -235,11 +197,7 @@ export default function LandingPage() {
             ) : (
               <>
                 <img
-                  src={
-                    media.photos.find(
-                      (photo) => !photo.src.includes("illustration"),
-                    )?.src ?? media.hero
-                  }
+                  src={media.poster}
                   alt="A quiet afternoon outdoors"
                   loading="lazy"
                   width="1500"
@@ -263,41 +221,72 @@ export default function LandingPage() {
                       <Play size={26} />
                     </span>
                   )}
-                  <h3>How to sling</h3>
+                  <h3><Copy field="home.how-to-sling" /></h3>
                   <p>
                     {embed
-                      ? "Watch the basics. Then head outside."
-                      : "We’re putting a little how-to together. Stay tuned."}
+                      ? t("home.video-ready")
+                      : t("home.video-soon")}
                   </p>
                 </div>
-                <span className="video-corner">DAVID SLINGS / FIELD NOTES</span>
+                <span className="video-corner"><Copy field="home.david-slings-field-notes" /></span>
               </>
             )}
           </div>
           <p className="safety-note">
-            Find a wide-open space. Keep people, animals, and anything breakable
-            well clear. Younger slingers need an adult along.
-          </p>
+            <Copy field="home.find-a-wide-open-space-keep-people-animals-and-anything" /></p>
         </section>
-        <section className="closing shell">
+        </Section>,
+    closing: <Section key="closing" name="closing"><section className="closing shell">
           <span className="closing-star" aria-hidden="true">
             ✳
           </span>
-          <h2>See you outside.</h2>
+          <h2><Copy field="home.see-you-outside" /></h2>
           <Link className="text-link" to="/checkout">
-            Bring a sling <ArrowUpRight size={18} />
+            <Copy field="home.bring-a-sling" /> <ArrowUpRight size={18} />
           </Link>
         </section>
-      </main>
+      </Section>,
+  };
+  return (
+    <>
+      <Header />
+      <main className="storefront-sections">
+        <section className="hero shell" aria-labelledby="hero-title">
+          <div className="hero-copy">
+            <p className="eyebrow">
+              <span className="tiny-sun">✳</span> <Copy field="home.made-by-hand-meant-for-outside" /></p>
+            <h1 id="hero-title"><Copy field="home.made-for-a-good-time" /></h1>
+            <p className="hero-description"><Copy field="home.a-leather-pouch-two-cords" /></p>
+            <div className="hero-actions">
+              <a className="button" href={content.hiddenSections.includes("product")?"/checkout":"#sling"}>
+                <Copy field="home.get-your-sling" /> <span>${PRICE}</span>
+                <ArrowUpRight size={19} />
+              </a>
+              <a className="text-link" href="#how-to">
+                <Copy field="home.how-does-it-work" /> <ArrowDown size={15} />
+              </a>
+            </div>
+            <p className="handwritten hero-note"><Copy field="home.go-sling" /></p>
+          </div>
+          <div className="hero-art">
+            <div className="art-label"><Copy field="home.the-original-shepherd-s-sling" /></div>
+            <img
+              src={media.hero}
+              alt={media.heroAlt}
+              style={{objectPosition:`50% ${media.heroPosition}%`}}
+              fetchPriority="high"
+              width="1536"
+              height="1024"
+            />
+            <div className="art-bottom">
+              <span><Copy field="home.leather-paracord" /></span>
+              <span className="handwritten"><Copy field="home.made-for-a-good-afternoon" /></span>
+            </div>
+          </div>
+        </section>
+        {content.sections.map(name=>sections[name])}</main>
       <Footer />
-      {IS_PREVIEW && (
-        <div className="preview-tools">
-          <span>Design preview</span>
-          <Link to="/studio">
-            Add your photos <ArrowUpRight size={13} />
-          </Link>
-        </div>
-      )}
+
     </>
   );
 }

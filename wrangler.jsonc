@@ -1,0 +1,8 @@
+{
+ "name":"david-slings-studio", "main":"worker/index.ts", "compatibility_date":"2026-09-09", "compatibility_flags":["nodejs_compat"],
+ "observability":{"enabled":true},
+ "assets":{"directory":"./dist/client","binding":"ASSETS","not_found_handling":"single-page-application","run_worker_first":true},
+ "d1_databases":[{"binding":"DB","database_name":"david-slings-content","database_id":"00000000-0000-4000-8000-000000000000","migrations_dir":"drizzle"}],
+ "r2_buckets":[{"binding":"FILES","bucket_name":"david-slings-media"}],
+ "vars":{"EDITOR_EMAIL":"editor@example.test"}
+}

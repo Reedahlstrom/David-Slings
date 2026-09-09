@@ -1,0 +1,507 @@
+{
+  "home.made-by-hand-meant-for-outside": {
+    "group": "Home",
+    "label": "MADE BY HAND. MEANT FOR OUTSIDE.",
+    "defaultValue": "MADE BY HAND. MEANT FOR OUTSIDE."
+  },
+  "home.made-for-a-good-time": {
+    "group": "Home",
+    "label": "Made for a good time.",
+    "defaultValue": "Made for a good time."
+  },
+  "home.a-leather-pouch-two-cords": {
+    "group": "Home",
+    "label": "A leather pouch. Two cords.",
+    "defaultValue": "A leather pouch. Two cords."
+  },
+  "home.get-your-sling": {
+    "group": "Home",
+    "label": "Get your sling",
+    "defaultValue": "Get your sling"
+  },
+  "home.how-does-it-work": {
+    "group": "Home",
+    "label": "How does it work?",
+    "defaultValue": "How does it work?"
+  },
+  "home.go-sling": {
+    "group": "Home",
+    "label": "Go sling.",
+    "defaultValue": "Go sling."
+  },
+  "home.the-original-shepherd-s-sling": {
+    "group": "Home",
+    "label": "THE ORIGINAL SHEPHERD’S SLING",
+    "defaultValue": "THE ORIGINAL SHEPHERD’S SLING"
+  },
+  "home.leather-paracord": {
+    "group": "Home",
+    "label": "Leather + paracord",
+    "defaultValue": "Leather + paracord"
+  },
+  "home.made-for-a-good-afternoon": {
+    "group": "Home",
+    "label": "Made for a good afternoon ↗",
+    "defaultValue": "Made for a good afternoon ↗"
+  },
+  "home.less-scrolling-more-slinging": {
+    "group": "Home",
+    "label": "LESS SCROLLING. MORE SLINGING.",
+    "defaultValue": "LESS SCROLLING. MORE SLINGING."
+  },
+  "home.yep-that-s-the-whole-thing": {
+    "group": "Home",
+    "label": "Yep, that’s the whole thing.",
+    "defaultValue": "Yep, that’s the whole thing."
+  },
+  "home.one-sling-endless-afternoons": {
+    "group": "Home",
+    "label": "ONE SLING. ENDLESS AFTERNOONS.",
+    "defaultValue": "ONE SLING. ENDLESS AFTERNOONS."
+  },
+  "home.the-david-sling": {
+    "group": "Home",
+    "label": "The David Sling",
+    "defaultValue": "The David Sling"
+  },
+  "home.a-handmade-shepherd-s-sling-made-from-leather-and-parac": {
+    "group": "Home",
+    "label": "A handmade shepherd’s sling, made from leather and paracord. Small enough for your pocket. Way more fun outside of it.",
+    "defaultValue": "A handmade shepherd’s sling, made from leather and paracord. Small enough for your pocket. Way more fun outside of it."
+  },
+  "home.leather-pouch-paracord": {
+    "group": "Home",
+    "label": "Leather pouch & paracord",
+    "defaultValue": "Leather pouch & paracord"
+  },
+  "home.made-by-hand": {
+    "group": "Home",
+    "label": "Made by hand",
+    "defaultValue": "Made by hand"
+  },
+  "home.no-batteries-obviously": {
+    "group": "Home",
+    "label": "No batteries. Obviously.",
+    "defaultValue": "No batteries. Obviously."
+  },
+  "home.get": {
+    "group": "Home",
+    "label": "Get",
+    "defaultValue": "Get"
+  },
+  "home.free-shipping-just-pick-a-good-spot": {
+    "group": "Home",
+    "label": "Free shipping. Just pick a good spot.",
+    "defaultValue": "Free shipping. Just pick a good spot."
+  },
+  "home.a-little-practice-goes-a-long-way": {
+    "group": "Home",
+    "label": "A LITTLE PRACTICE GOES A LONG WAY.",
+    "defaultValue": "A LITTLE PRACTICE GOES A LONG WAY."
+  },
+  "home.get-the-hang-of-it": {
+    "group": "Home",
+    "label": "Get the hang of it.",
+    "defaultValue": "Get the hang of it."
+  },
+  "home.your-first-throw-probably-won-t-be-your-best": {
+    "group": "Home",
+    "label": "Your first throw probably won’t be your best.",
+    "defaultValue": "Your first throw probably won’t be your best."
+  },
+  "home.that-s-kind-of-the-fun-of-it": {
+    "group": "Home",
+    "label": "That’s kind of the fun of it.",
+    "defaultValue": "That’s kind of the fun of it."
+  },
+  "home.how-to-sling": {
+    "group": "Home",
+    "label": "How to sling",
+    "defaultValue": "How to sling"
+  },
+  "home.david-slings-field-notes": {
+    "group": "Home",
+    "label": "DAVID SLINGS / FIELD NOTES",
+    "defaultValue": "DAVID SLINGS / FIELD NOTES"
+  },
+  "home.find-a-wide-open-space-keep-people-animals-and-anything": {
+    "group": "Home",
+    "label": "Find a wide-open space. Keep people, animals, and anything breakable well clear. Younger slingers need an adult along.",
+    "defaultValue": "Find a wide-open space. Keep people, animals, and anything breakable well clear. Younger slingers need an adult along."
+  },
+  "home.see-you-outside": {
+    "group": "Home",
+    "label": "See you outside.",
+    "defaultValue": "See you outside."
+  },
+  "home.bring-a-sling": {
+    "group": "Home",
+    "label": "Bring a sling",
+    "defaultValue": "Bring a sling"
+  },
+  "header.david-slings": {
+    "group": "Header",
+    "label": "david slings",
+    "defaultValue": "david slings"
+  },
+  "header.get-a-sling": {
+    "group": "Header",
+    "label": "Get a sling",
+    "defaultValue": "Get a sling"
+  },
+  "footer.a-little-less-screen-time-a-little-more-outside": {
+    "group": "Footer",
+    "label": "A little less screen time. A little more outside.",
+    "defaultValue": "A little less screen time. A little more outside."
+  },
+  "footer.say-hello": {
+    "group": "Footer",
+    "label": "Say hello",
+    "defaultValue": "Say hello"
+  },
+  "footer.david-slings": {
+    "group": "Footer",
+    "label": "David Slings",
+    "defaultValue": "David Slings"
+  },
+  "checkout.back-to-the-sling": {
+    "group": "Checkout",
+    "label": "Back to the sling",
+    "defaultValue": "Back to the sling"
+  },
+  "checkout.where-s-it-headed": {
+    "group": "Checkout",
+    "label": "Where’s it headed?",
+    "defaultValue": "Where’s it headed?"
+  },
+  "checkout.a-few-details-and-you-re-on-your-way-outside": {
+    "group": "Checkout",
+    "label": "A few details, and you’re on your way outside.",
+    "defaultValue": "A few details, and you’re on your way outside."
+  },
+  "checkout.your-email": {
+    "group": "Checkout",
+    "label": "Your email",
+    "defaultValue": "Your email"
+  },
+  "checkout.email-address": {
+    "group": "Checkout",
+    "label": "Email address",
+    "defaultValue": "Email address"
+  },
+  "checkout.for-your-receipt-and-order-updates": {
+    "group": "Checkout",
+    "label": "For your receipt and order updates.",
+    "defaultValue": "For your receipt and order updates."
+  },
+  "checkout.shipping-address": {
+    "group": "Checkout",
+    "label": "Shipping address",
+    "defaultValue": "Shipping address"
+  },
+  "checkout.first-name": {
+    "group": "Checkout",
+    "label": "First name",
+    "defaultValue": "First name"
+  },
+  "checkout.last-name": {
+    "group": "Checkout",
+    "label": "Last name",
+    "defaultValue": "Last name"
+  },
+  "checkout.country": {
+    "group": "Checkout",
+    "label": "Country",
+    "defaultValue": "Country"
+  },
+  "checkout.united-states": {
+    "group": "Checkout",
+    "label": "United States",
+    "defaultValue": "United States"
+  },
+  "checkout.canada": {
+    "group": "Checkout",
+    "label": "Canada",
+    "defaultValue": "Canada"
+  },
+  "checkout.street-address": {
+    "group": "Checkout",
+    "label": "Street address",
+    "defaultValue": "Street address"
+  },
+  "checkout.apartment-suite-etc": {
+    "group": "Checkout",
+    "label": "Apartment, suite, etc.",
+    "defaultValue": "Apartment, suite, etc."
+  },
+  "checkout.optional": {
+    "group": "Checkout",
+    "label": "(optional)",
+    "defaultValue": "(optional)"
+  },
+  "checkout.city": {
+    "group": "Checkout",
+    "label": "City",
+    "defaultValue": "City"
+  },
+  "checkout.standard-shipping": {
+    "group": "Checkout",
+    "label": "Standard shipping",
+    "defaultValue": "Standard shipping"
+  },
+  "checkout.to-your-door-on-us": {
+    "group": "Checkout",
+    "label": "To your door, on us.",
+    "defaultValue": "To your door, on us."
+  },
+  "checkout.free": {
+    "group": "Checkout",
+    "label": "Free",
+    "defaultValue": "Free"
+  },
+  "checkout.review-your-order": {
+    "group": "Checkout",
+    "label": "Review your order",
+    "defaultValue": "Review your order"
+  },
+  "checkout.looking-good": {
+    "group": "Checkout",
+    "label": "Looking good?",
+    "defaultValue": "Looking good?"
+  },
+  "checkout.give-everything-a-quick-look-before-the-last-step": {
+    "group": "Checkout",
+    "label": "Give everything a quick look before the last step.",
+    "defaultValue": "Give everything a quick look before the last step."
+  },
+  "checkout.edit": {
+    "group": "Checkout",
+    "label": "Edit",
+    "defaultValue": "Edit"
+  },
+  "checkout.send-it-here": {
+    "group": "Checkout",
+    "label": "Send it here",
+    "defaultValue": "Send it here"
+  },
+  "checkout.shipping": {
+    "group": "Checkout",
+    "label": "Shipping",
+    "defaultValue": "Shipping"
+  },
+  "checkout.continue-to-payment": {
+    "group": "Checkout",
+    "label": "Continue to payment",
+    "defaultValue": "Continue to payment"
+  },
+  "checkout.the-last-little-bit": {
+    "group": "Checkout",
+    "label": "The last little bit.",
+    "defaultValue": "The last little bit."
+  },
+  "checkout.then-it-s-time-to-find-some-open-space": {
+    "group": "Checkout",
+    "label": "Then it’s time to find some open space.",
+    "defaultValue": "Then it’s time to find some open space."
+  },
+  "checkout.pay-by-card": {
+    "group": "Checkout",
+    "label": "Pay by card",
+    "defaultValue": "Pay by card"
+  },
+  "checkout.payment-preview": {
+    "group": "Checkout",
+    "label": "PAYMENT PREVIEW",
+    "defaultValue": "PAYMENT PREVIEW"
+  },
+  "checkout.nbsp-nbsp-nbsp-4242": {
+    "group": "Checkout",
+    "label": "•••• &nbsp; •••• &nbsp; •••• &nbsp; 4242",
+    "defaultValue": "•••• &nbsp; •••• &nbsp; •••• &nbsp; 4242"
+  },
+  "checkout.sample-card-no-real-card-details-needed": {
+    "group": "Checkout",
+    "label": "Sample card · No real card details needed",
+    "defaultValue": "Sample card · No real card details needed"
+  },
+  "checkout.back-to-your-details": {
+    "group": "Checkout",
+    "label": "Back to your details",
+    "defaultValue": "Back to your details"
+  },
+  "checkout.coming-along-for-the-ride": {
+    "group": "Checkout",
+    "label": "COMING ALONG FOR THE RIDE",
+    "defaultValue": "COMING ALONG FOR THE RIDE"
+  },
+  "checkout.leather-paracord": {
+    "group": "Checkout",
+    "label": "Leather & paracord",
+    "defaultValue": "Leather & paracord"
+  },
+  "checkout.00-each": {
+    "group": "Checkout",
+    "label": ".00 each",
+    "defaultValue": ".00 each"
+  },
+  "checkout.quantity": {
+    "group": "Checkout",
+    "label": "Quantity",
+    "defaultValue": "Quantity"
+  },
+  "checkout.subtotal": {
+    "group": "Checkout",
+    "label": "Subtotal",
+    "defaultValue": "Subtotal"
+  },
+  "checkout.tax": {
+    "group": "Checkout",
+    "label": "Tax",
+    "defaultValue": "Tax"
+  },
+  "checkout.usd": {
+    "group": "Checkout",
+    "label": "USD",
+    "defaultValue": "USD"
+  },
+  "checkout.good-afternoons-ahead": {
+    "group": "Checkout",
+    "label": "Good afternoons ahead.",
+    "defaultValue": "Good afternoons ahead."
+  },
+  "checkout.join-the-slinging-club": {
+    "group": "Checkout",
+    "label": "Join the slinging club",
+    "defaultValue": "Join the slinging club"
+  },
+  "checkout.need-a-hand": {
+    "group": "Checkout",
+    "label": "Need a hand?",
+    "defaultValue": "Need a hand?"
+  },
+  "checkout.say-hello": {
+    "group": "Checkout",
+    "label": "Say hello.",
+    "defaultValue": "Say hello."
+  },
+  "checkout.questions-we-re-around": {
+    "group": "Checkout",
+    "label": "Questions? We’re around.",
+    "defaultValue": "Questions? We’re around."
+  },
+  "confirmation.this-is-the-order-confirmation-design": {
+    "group": "Confirmation",
+    "label": "THIS IS THE ORDER CONFIRMATION DESIGN",
+    "defaultValue": "THIS IS THE ORDER CONFIRMATION DESIGN"
+  },
+  "confirmation.good-times-ahead": {
+    "group": "Confirmation",
+    "label": "Good times ahead.",
+    "defaultValue": "Good times ahead."
+  },
+  "confirmation.your-sling-s-next-stop-outside": {
+    "group": "Confirmation",
+    "label": "Your sling’s next stop? Outside.",
+    "defaultValue": "Your sling’s next stop? Outside."
+  },
+  "confirmation.the-david-sling": {
+    "group": "Confirmation",
+    "label": "× The David Sling",
+    "defaultValue": "× The David Sling"
+  },
+  "confirmation.00-free-shipping": {
+    "group": "Confirmation",
+    "label": ".00 · Free shipping",
+    "defaultValue": ".00 · Free shipping"
+  },
+  "confirmation.sample-order": {
+    "group": "Confirmation",
+    "label": "Sample order",
+    "defaultValue": "Sample order"
+  },
+  "confirmation.here-s-what-comes-next": {
+    "group": "Confirmation",
+    "label": "Here’s what comes next.",
+    "defaultValue": "Here’s what comes next."
+  },
+  "confirmation.thanks-for-coming-along": {
+    "group": "Confirmation",
+    "label": "Thanks for coming along.",
+    "defaultValue": "Thanks for coming along."
+  },
+  "confirmation.back-outside": {
+    "group": "Confirmation",
+    "label": "Back outside",
+    "defaultValue": "Back outside"
+  },
+  "confirmation.try-checkout-again": {
+    "group": "Confirmation",
+    "label": "Try checkout again",
+    "defaultValue": "Try checkout again"
+  },
+  "confirmation.checking-on-your-order": {
+    "group": "Confirmation",
+    "label": "Checking on your order?",
+    "defaultValue": "Checking on your order?"
+  },
+  "confirmation.ask-about-your-order": {
+    "group": "Confirmation",
+    "label": "Ask about your order",
+    "defaultValue": "Ask about your order"
+  },
+  "confirmation.back-to-the-slings": {
+    "group": "Confirmation",
+    "label": "Back to the slings",
+    "defaultValue": "Back to the slings"
+  },
+  "home.video-ready": {
+    "group": "Home",
+    "label": "Video introduction",
+    "defaultValue": "Watch the basics. Then head outside."
+  },
+  "home.video-soon": {
+    "group": "Home",
+    "label": "Video coming soon",
+    "defaultValue": "We’re putting a little how-to together. Stay tuned."
+  },
+  "home.sling-single": {
+    "group": "Home",
+    "label": "Button: one sling",
+    "defaultValue": "a sling"
+  },
+  "home.sling-plural": {
+    "group": "Home",
+    "label": "Button: several slings",
+    "defaultValue": "slings"
+  },
+  "checkout.province": {
+    "group": "Checkout",
+    "label": "Province",
+    "defaultValue": "Province"
+  },
+  "checkout.state": {
+    "group": "Checkout",
+    "label": "State",
+    "defaultValue": "State"
+  },
+  "checkout.postal-code": {
+    "group": "Checkout",
+    "label": "Postal code",
+    "defaultValue": "Postal code"
+  },
+  "checkout.zip-code": {
+    "group": "Checkout",
+    "label": "ZIP code",
+    "defaultValue": "ZIP code"
+  },
+  "checkout.review-step": {
+    "group": "Checkout",
+    "label": "Review step",
+    "defaultValue": "Review"
+  },
+  "checkout.payment-step": {
+    "group": "Checkout",
+    "label": "Payment step",
+    "defaultValue": "Payment"
+  }
+}

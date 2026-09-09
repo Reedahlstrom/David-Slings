@@ -1,0 +1,1 @@
+{"compilerOptions":{"target":"ES2022","lib":["ES2022"],"module":"ESNext","moduleResolution":"bundler","strict":true,"noEmit":true,"skipLibCheck":true,"resolveJsonModule":true,"types":[]},"include":["worker/**/*.ts","shared/**/*","worker-configuration.d.ts"]}

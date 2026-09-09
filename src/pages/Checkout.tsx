@@ -1,3 +1,4 @@
+import { Copy, useCopy } from "@/lib/storefront";
 import { useState } from "react";
 import type { FormEvent } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
@@ -14,7 +15,7 @@ import {
   Plus,
   Truck,
 } from "lucide-react";
-import { IS_PREVIEW, PRICE, useMedia } from "@/lib/storefront";
+import { IS_PREVIEW, useMedia } from "@/lib/storefront";
 
 interface Shipping {
   email: string;
@@ -39,7 +40,9 @@ const empty: Shipping = {
   country: "US",
 };
 export default function Checkout() {
-  const { media } = useMedia();
+  const t = useCopy();
+  const { media, content } = useMedia();
+  const PRICE = content.price;
   const [params] = useSearchParams();
   const requested = Number(params.get("quantity") ?? 1);
   const [quantity, setQuantity] = useState(
@@ -91,7 +94,7 @@ export default function Checkout() {
     <div className="checkout-page">
       <header className="checkout-header shell">
         <Link className="wordmark" to="/">
-          david slings<span className="brand-dot">✳</span>
+          <Copy field="header.david-slings" /><span className="brand-dot">✳</span>
         </Link>
         <span>
           <LockKeyhole size={14} />
@@ -102,10 +105,9 @@ export default function Checkout() {
         <div className="checkout-main">
           <Link className="back-link" to="/#sling">
             <ArrowLeft size={15} />
-            Back to the sling
-          </Link>
+            <Copy field="checkout.back-to-the-sling" /></Link>
           <nav className="checkout-steps" aria-label="Checkout progress">
-            {["Shipping", "Review", "Payment"].map((label, i) => (
+            {[t("checkout.shipping"), t("checkout.review-step"), t("checkout.payment-step")].map((label, i) => (
               <span
                 key={label}
                 className={step === i ? "current" : step > i ? "complete" : ""}
@@ -134,14 +136,12 @@ export default function Checkout() {
           )}
           {step === 0 && (
             <form className="shipping-form" onSubmit={next}>
-              <h1>Where’s it headed?</h1>
+              <h1><Copy field="checkout.where-s-it-headed" /></h1>
               <p className="checkout-subtitle">
-                A few details, and you’re on your way outside.
-              </p>
-              <h2 className="form-heading">Your email</h2>
+                <Copy field="checkout.a-few-details-and-you-re-on-your-way-outside" /></p>
+              <h2 className="form-heading"><Copy field="checkout.your-email" /></h2>
               <label>
-                Email address
-                <input
+                <Copy field="checkout.email-address" /><input
                   type="email"
                   name="email"
                   autoComplete="email"
@@ -151,14 +151,12 @@ export default function Checkout() {
                   {...field("email")}
                 />
               </label>
-              <p className="field-note">For your receipt and order updates.</p>
+              <p className="field-note"><Copy field="checkout.for-your-receipt-and-order-updates" /></p>
               <h2 className="form-heading shipping-heading">
-                Shipping address
-              </h2>
+                <Copy field="checkout.shipping-address" /></h2>
               <div className="field-grid">
                 <label>
-                  First name
-                  <input
+                  <Copy field="checkout.first-name" /><input
                     name="given-name"
                     autoComplete="given-name"
                     required
@@ -167,8 +165,7 @@ export default function Checkout() {
                   />
                 </label>
                 <label>
-                  Last name
-                  <input
+                  <Copy field="checkout.last-name" /><input
                     name="family-name"
                     autoComplete="family-name"
                     required
@@ -177,19 +174,17 @@ export default function Checkout() {
                   />
                 </label>
                 <label className="full-width">
-                  Country
-                  <select
+                  <Copy field="checkout.country" /><select
                     name="country"
                     autoComplete="country"
                     {...field("country")}
                   >
-                    <option value="US">United States</option>
-                    <option value="CA">Canada</option>
+                    <option value="US">{t("checkout.united-states")}</option>
+                    <option value="CA">{t("checkout.canada")}</option>
                   </select>
                 </label>
                 <label className="full-width">
-                  Street address
-                  <input
+                  <Copy field="checkout.street-address" /><input
                     name="address-line1"
                     autoComplete="address-line1"
                     required
@@ -198,8 +193,8 @@ export default function Checkout() {
                   />
                 </label>
                 <label className="full-width">
-                  Apartment, suite, etc.{" "}
-                  <span className="optional">(optional)</span>
+                  <Copy field="checkout.apartment-suite-etc" />{" "}
+                  <span className="optional"><Copy field="checkout.optional" /></span>
                   <input
                     name="address-line2"
                     autoComplete="address-line2"
@@ -208,8 +203,7 @@ export default function Checkout() {
                   />
                 </label>
                 <label className="full-width">
-                  City
-                  <input
+                  <Copy field="checkout.city" /><input
                     name="address-level2"
                     autoComplete="address-level2"
                     required
@@ -218,7 +212,7 @@ export default function Checkout() {
                   />
                 </label>
                 <label>
-                  {shipping.country === "CA" ? "Province" : "State"}
+                  {shipping.country === "CA" ? t("checkout.province") : t("checkout.state")}
                   <input
                     name="address-level1"
                     autoComplete="address-level1"
@@ -228,7 +222,7 @@ export default function Checkout() {
                   />
                 </label>
                 <label>
-                  {shipping.country === "CA" ? "Postal code" : "ZIP code"}
+                  {shipping.country === "CA" ? t("checkout.postal-code") : t("checkout.zip-code")}
                   <input
                     name="postal-code"
                     autoComplete="postal-code"
@@ -251,9 +245,9 @@ export default function Checkout() {
               <div className="shipping-method">
                 <Truck size={20} />
                 <span>
-                  Standard shipping<small>To your door, on us.</small>
+                  <Copy field="checkout.standard-shipping" /><small><Copy field="checkout.to-your-door-on-us" /></small>
                 </span>
-                <strong>Free</strong>
+                <strong><Copy field="checkout.free" /></strong>
                 <Check size={17} />
               </div>
               {error && (
@@ -262,31 +256,28 @@ export default function Checkout() {
                 </p>
               )}
               <button className="button full-button" type="submit">
-                Review your order <ArrowRight size={17} />
+                <Copy field="checkout.review-your-order" /> <ArrowRight size={17} />
               </button>
             </form>
           )}
           {step === 1 && (
             <section className="review-panel">
-              <h1>Looking good?</h1>
+              <h1><Copy field="checkout.looking-good" /></h1>
               <p className="checkout-subtitle">
-                Give everything a quick look before the last step.
-              </p>
+                <Copy field="checkout.give-everything-a-quick-look-before-the-last-step" /></p>
               <div className="review-block">
                 <div>
-                  <h2>Your email</h2>
+                  <h2><Copy field="checkout.your-email" /></h2>
                   <button className="edit-link" onClick={() => setStep(0)}>
-                    Edit
-                  </button>
+                    <Copy field="checkout.edit" /></button>
                 </div>
                 <p>{shipping.email}</p>
               </div>
               <div className="review-block">
                 <div>
-                  <h2>Send it here</h2>
+                  <h2><Copy field="checkout.send-it-here" /></h2>
                   <button className="edit-link" onClick={() => setStep(0)}>
-                    Edit
-                  </button>
+                    <Copy field="checkout.edit" /></button>
                 </div>
                 <address>
                   {shipping.firstName} {shipping.lastName}
@@ -306,10 +297,10 @@ export default function Checkout() {
               </div>
               <div className="review-block">
                 <div>
-                  <h2>Shipping</h2>
-                  <strong>Free</strong>
+                  <h2><Copy field="checkout.shipping" /></h2>
+                  <strong><Copy field="checkout.free" /></strong>
                 </div>
-                <p>Standard shipping</p>
+                <p><Copy field="checkout.standard-shipping" /></p>
               </div>
               <button
                 className="button full-button"
@@ -318,30 +309,29 @@ export default function Checkout() {
                   window.scrollTo({ top: 0, behavior: "smooth" });
                 }}
               >
-                Continue to payment <ArrowRight size={17} />
+                <Copy field="checkout.continue-to-payment" /> <ArrowRight size={17} />
               </button>
             </section>
           )}
           {step === 2 && (
             <section className="payment-panel">
-              <h1>The last little bit.</h1>
+              <h1><Copy field="checkout.the-last-little-bit" /></h1>
               <p className="checkout-subtitle">
-                Then it’s time to find some open space.
-              </p>
+                <Copy field="checkout.then-it-s-time-to-find-some-open-space" /></p>
               <div className="payment-option">
                 <CreditCard size={20} />
-                <strong>Pay by card</strong>
+                <strong><Copy field="checkout.pay-by-card" /></strong>
                 <Check size={17} />
               </div>
               {IS_PREVIEW ? (
                 <>
                   <div className="sample-card">
                     <div>
-                      <span>PAYMENT PREVIEW</span>
+                      <span><Copy field="checkout.payment-preview" /></span>
                       <CreditCard size={25} />
                     </div>
-                    <p>•••• &nbsp; •••• &nbsp; •••• &nbsp; 4242</p>
-                    <small>Sample card · No real card details needed</small>
+                    <p><Copy field="checkout.nbsp-nbsp-nbsp-4242" /></p>
+                    <small><Copy field="checkout.sample-card-no-real-card-details-needed" /></small>
                   </div>
                   <p className="payment-explanation">
                     This is a sample payment screen. The live store will use
@@ -371,17 +361,16 @@ export default function Checkout() {
               )}
               <button className="back-step" onClick={() => setStep(1)}>
                 <ArrowLeft size={14} />
-                Back to your details
-              </button>
+                <Copy field="checkout.back-to-your-details" /></button>
             </section>
           )}
         </div>
         <aside className="order-summary" aria-label="Order summary">
-          <p className="eyebrow">COMING ALONG FOR THE RIDE</p>
+          <p className="eyebrow"><Copy field="checkout.coming-along-for-the-ride" /></p>
           <div className="summary-product">
             <div className="summary-image">
               <img
-                src={media.hero}
+                src={media.product}
                 alt="The David Sling"
                 width="1536"
                 height="1024"
@@ -394,13 +383,13 @@ export default function Checkout() {
               </span>
             </div>
             <div className="summary-product-details">
-              <h2>The David Sling</h2>
-              <p>Leather & paracord</p>
-              <span>${PRICE}.00 each</span>
+              <h2><Copy field="home.the-david-sling" /></h2>
+              <p><Copy field="checkout.leather-paracord" /></p>
+              <span>${PRICE}<Copy field="checkout.00-each" /></span>
             </div>
           </div>
           <div className="summary-quantity">
-            <span>Quantity</span>
+            <span><Copy field="checkout.quantity" /></span>
             <div className="quantity-control">
               <button
                 aria-label="Remove one sling"
@@ -421,15 +410,15 @@ export default function Checkout() {
           </div>
           <dl className="order-totals">
             <div>
-              <dt>Subtotal</dt>
-              <dd>${PRICE * quantity}.00</dd>
+              <dt><Copy field="checkout.subtotal" /></dt>
+              <dd>${(PRICE * quantity).toFixed(2)}</dd>
             </div>
             <div>
-              <dt>Shipping</dt>
-              <dd>Free</dd>
+              <dt><Copy field="checkout.shipping" /></dt>
+              <dd><Copy field="checkout.free" /></dd>
             </div>
             <div>
-              <dt>Tax</dt>
+              <dt><Copy field="checkout.tax" /></dt>
               <dd className="tax-note">
                 {IS_PREVIEW
                   ? "Not included in preview"
@@ -439,30 +428,29 @@ export default function Checkout() {
             <div className="total">
               <dt>{IS_PREVIEW ? "Preview total" : "Total before tax"}</dt>
               <dd>
-                <small>USD</small> ${(PRICE * quantity).toFixed(2)}
+                <small><Copy field="checkout.usd" /></small> ${(PRICE * quantity).toFixed(2)}
               </dd>
             </div>
           </dl>
-          <p className="handwritten summary-note">Good afternoons ahead.</p>
+          <p className="handwritten summary-note"><Copy field="checkout.good-afternoons-ahead" /></p>
           <a
             className="slinging-club-link"
-            href="https://www.instagram.com/davidslingsclub/"
+            href={content.instagram}
             target="_blank"
             rel="noopener noreferrer"
           >
             <Camera size={17} aria-hidden="true" />
-            Join the slinging club
-            <ArrowUpRight size={15} aria-hidden="true" />
+            <Copy field="checkout.join-the-slinging-club" /><ArrowUpRight size={15} aria-hidden="true" />
           </a>
           <div className="checkout-help">
-            Need a hand?{" "}
-            <a href="mailto:contact@david-slings.com">Say hello.</a>
+            <Copy field="checkout.need-a-hand" />{" "}
+            <a href={`mailto:${content.contactEmail}`}><Copy field="checkout.say-hello" /></a>
           </div>
         </aside>
       </main>
       <footer className="checkout-footer shell">
-        <span>© {new Date().getFullYear()} David Slings</span>
-        <a href="mailto:contact@david-slings.com">Questions? We’re around.</a>
+        <span>© {new Date().getFullYear()} <Copy field="footer.david-slings" /></span>
+        <a href={`mailto:${content.contactEmail}`}><Copy field="checkout.questions-we-re-around" /></a>
       </footer>
     </div>
   );
