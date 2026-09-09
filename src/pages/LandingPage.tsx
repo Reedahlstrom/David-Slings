@@ -1,16 +1,15 @@
 import { Copy, Section, useCopy } from "@/lib/storefront";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import {
   ArrowDown,
-  ArrowLeft,
-  ArrowRight,
   ArrowUpRight,
   Check,
   Minus,
   Plus,
   Play,
 } from "lucide-react";
+import PhotoCarousel from "@/components/PhotoCarousel";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import { useMedia, videoEmbed } from "@/lib/storefront";
@@ -19,95 +18,11 @@ export default function LandingPage() {
   const t=useCopy();
   const { media, content } = useMedia();
   const PRICE = content.price;
-  const track = useRef<HTMLDivElement>(null);
-  const [photoIndex, setPhotoIndex] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [playing, setPlaying] = useState(false);
   const embed = videoEmbed(media.video);
-  function movePhoto(direction: number) {
-    const next = Math.max(
-      0,
-      Math.min(media.photos.length - 1, photoIndex + direction),
-    );
-    const target = track.current?.children[next] as HTMLElement | undefined;
-    if (target && track.current)
-      track.current.scrollTo({
-        left:
-          target.offsetLeft -
-          (track.current.children[0] as HTMLElement).offsetLeft,
-        behavior: "smooth",
-      });
-  }
   const sections: Record<string, React.ReactNode> = {
-    photos: <Section key="photos" name="photos"><section className="photo-section" aria-label="A little time outside">
-          <div className="section-intro shell">
-            <p className="eyebrow"><Copy field="home.less-scrolling-more-slinging" /></p>
-            <div className="carousel-controls">
-              <span aria-live="polite">
-                {String(photoIndex + 1).padStart(2, "0")} /{" "}
-                {String(media.photos.length).padStart(2, "0")}
-              </span>
-              <button
-                aria-label="Previous photo"
-                onClick={() => movePhoto(-1)}
-                disabled={photoIndex === 0}
-              >
-                <ArrowLeft size={18} />
-              </button>
-              <button
-                aria-label="Next photo"
-                onClick={() => movePhoto(1)}
-                disabled={photoIndex === media.photos.length - 1}
-              >
-                <ArrowRight size={18} />
-              </button>
-            </div>
-          </div>
-          <div
-            className="photo-track"
-            ref={track}
-            tabIndex={0}
-            aria-label="Photo carousel. Swipe or use the arrow buttons."
-            onScroll={() => {
-              const el = track.current;
-              if (el && el.children[0])
-                setPhotoIndex(
-                  Math.min(
-                    media.photos.length - 1,
-                    Math.round(
-                      el.scrollLeft /
-                        ((el.children[0] as HTMLElement).offsetWidth + 22),
-                    ),
-                  ),
-                );
-            }}
-          >
-            {media.photos.map((photo, i) => (
-              <figure
-                className="photo-card"
-                key={`${photo.src.slice(0, 80)}-${i}`}
-              >
-                <div
-                  className={`photo-frame ${photo.src.includes("illustration") ? "is-illustration" : ""}`}
-                >
-                  <img
-                    src={photo.src}
-                    alt={photo.alt}
-                    style={{objectPosition:`50% ${photo.position}%`}}
-                    loading="lazy"
-                    width="1000"
-                    height="700"
-                  />
-                </div>
-                <figcaption>
-                  <span className="photo-number">0{i + 1}</span>
-                  {photo.caption}
-                </figcaption>
-              </figure>
-            ))}
-          </div>
-        </section>
-        </Section>,
+    photos: <Section key="photos" name="photos"><PhotoCarousel /></Section>,
     product: <Section key="product" name="product"><section
           className="product-section shell"
           id="sling"
@@ -237,9 +152,6 @@ export default function LandingPage() {
         </section>
         </Section>,
     closing: <Section key="closing" name="closing"><section className="closing shell">
-          <span className="closing-star" aria-hidden="true">
-            ✳
-          </span>
           <h2><Copy field="home.see-you-outside" /></h2>
           <Link className="text-link" to="/checkout">
             <Copy field="home.bring-a-sling" /> <ArrowUpRight size={18} />
@@ -254,7 +166,7 @@ export default function LandingPage() {
         <section className="hero shell" aria-labelledby="hero-title">
           <div className="hero-copy">
             <p className="eyebrow">
-              <span className="tiny-sun">✳</span> <Copy field="home.made-by-hand-meant-for-outside" /></p>
+              <Copy field="home.made-by-hand-meant-for-outside" /></p>
             <h1 id="hero-title"><Copy field="home.made-for-a-good-time" /></h1>
             <p className="hero-description"><Copy field="home.a-leather-pouch-two-cords" /></p>
             <div className="hero-actions">

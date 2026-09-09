@@ -11,7 +11,9 @@ export const defaults: SiteContent = {
  media:{logo:'/images/david-slings-logo.png',hero:'/images/sling-long-cords.png',heroAlt:'Generated image of a split leather pouch sling with olive cords and a leather finger loop',heroPosition:50,product:'/images/sling-long-cords.png',productAlt:'Generated product image of The David Sling with a split leather pouch',productPosition:50,poster:'/images/river-stones.jpg',video:'',photos:[
  {src:'/images/river-stones.jpg',alt:'Smooth stones beside a sunny creek',caption:'A good place to spend an afternoon.',position:50},
  {src:'/images/sling-long-cords.png',alt:'Generated split-pouch leather and paracord sling',caption:'A little leather. A little paracord.',position:50},
- {src:'/images/grassy-field.jpg',alt:'Open grassy hills in the afternoon light',caption:'See you out there.',position:50}]
+ {src:'/images/grassy-field.jpg',alt:'Open grassy hills in the afternoon light',caption:'See you out there.',position:50},
+ {src:'/images/sling-field.jpg',alt:'Generated photo of the split-pouch sling resting on a sunlit rock',caption:'Ready to go.',position:50},
+ {src:'/images/mountain-afternoon.jpg',alt:'Generated photo of an open mountain meadow and a dirt trail',caption:'Room to roam.',position:50}]
  }
 };
 export function videoEmbed(value:string):string|null {

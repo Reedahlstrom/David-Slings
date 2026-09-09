@@ -163,10 +163,6 @@ h3 {
   align-items: center;
   gap: 11px;
 }
-.tiny-sun {
-  font-size: 23px;
-  color: #77885c;
-}
 h1 {
   font-family: "DM Serif Display", Georgia, serif;
   font-size: clamp(58px, 6.6vw, 90px);
@@ -547,13 +543,6 @@ h2 {
 .closing {
   padding-block: 33px 73px;
   text-align: center;
-}
-.closing-star {
-  display: block;
-  font-size: 35px;
-  color: #829466;
-  line-height: 1;
-  margin-bottom: 18px;
 }
 .closing h2 {
   font-size: 56px;
@@ -1777,3 +1766,9 @@ body.site-editing { padding-right:370px; }
 .order-fulfillment label { display: grid; gap: 7px; font-size: 13px; flex: 1; }
 .order-fulfillment input { width: 100%; border: 1px solid var(--line); background: var(--paper); padding: 12px; border-radius: 3px; }
 @media(max-width:600px) { .orders-heading,.order-card-heading,.order-fulfillment { align-items: stretch; flex-direction: column; } .order-card-details { grid-template-columns: 1fr; } .order-card { padding: 20px; } .order-status { align-self: start; } }
+
+/* Native swipe with a seamless, gently moving photo strip. */
+.photo-track-loop{scroll-snap-type:none;overflow-anchor:none}
+.photo-track-loop::after{display:none}
+.photo-track-loop .photo-card{scroll-snap-align:none}
+@media(max-width:480px){.photo-section .section-intro{gap:12px;flex-wrap:wrap}.photo-section .eyebrow{font-size:10px;letter-spacing:1.1px}.carousel-controls{gap:6px}.carousel-controls button{width:34px;height:34px}.photo-track-loop .photo-frame{height:230px}}
