@@ -101,7 +101,6 @@ export default function PhotoCarousel() {
         const duplicate = looping && copy !== 2;
         return <figure className="photo-card" key={`${copy}-${i}-${photo.src}`} aria-hidden={duplicate || undefined}>
           <div className="photo-frame"><img src={photo.src} alt={duplicate ? '' : photo.alt} style={{ objectPosition: `50% ${photo.position}%` }} loading="lazy" decoding="async" width="1000" height="700" /></div>
-          <figcaption><span className="photo-number">{String(i + 1).padStart(2, '0')}</span>{photo.caption}</figcaption>
         </figure>;
       }))}
     </div>
