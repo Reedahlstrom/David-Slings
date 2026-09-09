@@ -3,6 +3,8 @@ import { defaults, mergeContent } from '../shared/content';
 import type { CheckoutConfig } from '../shared/commerce';
 import { canEdit, json, readBytes } from './http';
 
+const paymentIsLive = (env: Env) => /^[sr]k_live_/.test(env.STRIPE_SECRET_KEY);
+
 export function stripeClient(env: Env) {
   return new Stripe(env.STRIPE_SECRET_KEY, {httpClient: Stripe.createFetchHttpClient(), maxNetworkRetries: 2, timeout: 15000});
 }
@@ -26,7 +28,7 @@ export function validatePaidSession(session: Stripe.Checkout.Session, env: Env) 
   const shipping = session.collected_information?.shipping_details;
   const product = typeof line?.price?.product === 'string' ? line.price.product : line?.price?.product?.id;
   if (session.metadata?.store !== 'david-slings' || session.mode !== 'payment' || session.status !== 'complete' || session.payment_status !== 'paid') throw new Error('Session is not a paid David Slings order');
-  if (session.livemode !== (env.PAYMENTS_MODE === 'live')) throw new Error('Payment mode mismatch');
+  if (session.livemode !== paymentIsLive(env)) throw new Error('Payment mode mismatch');
   if (!Number.isInteger(quantity) || quantity < 1 || quantity > 10 || !Number.isInteger(unitAmount) || unitAmount < 100 || unitAmount > 100000 || !Number.isInteger(shippingAmount) || shippingAmount < 0) throw new Error('Invalid order metadata');
   if (!line || session.line_items?.data.length !== 1 || session.line_items.has_more || line.quantity !== quantity || product !== env.STRIPE_PRODUCT_ID || line.price?.unit_amount !== unitAmount || session.currency !== 'usd' || session.amount_subtotal !== unitAmount * quantity || session.total_details?.amount_shipping !== shippingAmount || session.total_details?.amount_discount !== 0 || session.amount_total !== session.amount_subtotal + shippingAmount + (session.total_details?.amount_tax ?? 0)) throw new Error('Order amounts do not match');
   if (!session.customer_details?.email || !shipping?.name || !shipping.address?.line1 || !shipping.address.city || !shipping.address.country || !shipping.address.postal_code) throw new Error('Paid order is missing its shipping details');
@@ -48,7 +50,7 @@ async function handleWebhook(request: Request, env: Env, stripe: Stripe) {
   let event: Stripe.Event;
   try {const payload = new TextDecoder().decode(await readBytes(request,1_000_000)); event = await stripe.webhooks.constructEventAsync(payload,signature,env.STRIPE_WEBHOOK_SECRET,300,Stripe.createSubtleCryptoProvider());}
   catch {return json({error:'Invalid signature.'},400);}
-  if (event.livemode !== (env.PAYMENTS_MODE === 'live')) return json({error:'Payment mode mismatch.'},400);
+  if (event.livemode !== paymentIsLive(env)) return json({error:'Payment mode mismatch.'},400);
   const seen = await env.DB.prepare('SELECT id FROM stripe_events WHERE id = ?').bind(event.id).first();
   if (seen) return json({received:true});
   if (event.type === 'checkout.session.completed' || event.type === 'checkout.session.async_payment_succeeded') {
@@ -115,7 +117,7 @@ export async function handlePayments(request: Request, env: Env, getStripe = str
       if (!env.STRIPE_SECRET_KEY) return json({error:'Order lookup is temporarily unavailable.'},503);
       const stripe = getStripe(env);
       const session = await stripe.checkout.sessions.retrieve(id,{expand:['line_items']});
-      if (session.metadata?.store !== 'david-slings' || session.livemode !== (env.PAYMENTS_MODE === 'live')) return json({error:'Order not found.'},404);
+      if (session.metadata?.store !== 'david-slings' || session.livemode !== paymentIsLive(env)) return json({error:'Order not found.'},404);
       if (session.payment_status !== 'paid' || session.status !== 'complete') return json({status:session.status === 'expired'?'expired':'pending'});
       await recordPaidOrder(session,env);
       const order = await env.DB.prepare('SELECT reference,status,quantity,amount_total,currency,livemode FROM orders WHERE session_id = ?').bind(id).first<{reference:string;status:string;quantity:number;amount_total:number;currency:string;livemode:number}>();
@@ -125,7 +127,7 @@ export async function handlePayments(request: Request, env: Env, getStripe = str
     if (path === '/api/orders' && request.method === 'GET') {
       if (!canEdit(request,env)) return json({error:'Sign in as the site owner.'},403);
       const limit = 50, before = url.searchParams.get('before') || '9999';
-      const {results} = await env.DB.prepare('SELECT * FROM orders WHERE paid_at < ? AND livemode = ? ORDER BY paid_at DESC LIMIT ?').bind(before,Number(env.PAYMENTS_MODE==='live'),limit).all();
+      const {results} = await env.DB.prepare('SELECT * FROM orders WHERE paid_at < ? AND livemode = ? ORDER BY paid_at DESC LIMIT ?').bind(before,Number(paymentIsLive(env)),limit).all();
       return json({orders:results,next:results.length===limit?results[results.length-1].paid_at:null});
     }
     if (path === '/api/orders/fulfill' && request.method === 'POST') {
@@ -133,7 +135,7 @@ export async function handlePayments(request: Request, env: Env, getStripe = str
       let input;
       try {input=JSON.parse(new TextDecoder().decode(await readBytes(request,4096)));} catch{return json({error:'Invalid request.'},400);}
       if (!input || typeof input.sessionId!=='string'||typeof input.trackingNumber!=='string'||input.trackingNumber.length>120) return json({error:'Enter a valid tracking number.'},400);
-      const result = await env.DB.prepare("UPDATE orders SET status = 'shipped', tracking_number = ?, updated_at = ? WHERE session_id = ? AND status = 'paid' AND livemode = ? RETURNING reference").bind(input.trackingNumber.trim(),new Date().toISOString(),input.sessionId,Number(env.PAYMENTS_MODE==='live')).first();
+      const result = await env.DB.prepare("UPDATE orders SET status = 'shipped', tracking_number = ?, updated_at = ? WHERE session_id = ? AND status = 'paid' AND livemode = ? RETURNING reference").bind(input.trackingNumber.trim(),new Date().toISOString(),input.sessionId,Number(paymentIsLive(env))).first();
       return result ? json({saved:true}) : json({error:'This order has already changed. Refresh the list.'},409);
     }
     return json({error:'Method not allowed.'},405);

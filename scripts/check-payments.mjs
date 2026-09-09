@@ -72,6 +72,8 @@ try {
     assert.deepEqual(Object.keys(result).sort(),['amountTotal','currency','quantity','reference','status','test']);
     assert.equal((await run(request('/api/orders'))).status,403);
     assert.equal((await run(request('/api/orders','GET',undefined,owner))).status,200);
+    const closed = await run(request('/api/order-status?session_id='+id),{...env,PAYMENTS_MODE:'off'});
+    assert.equal((await closed.json()).status,'paid');
   });
   await check('fulfillment requires owner and same origin; replay preserves shipped state',async()=>{
     const body={sessionId:id,trackingNumber:'TRACK-TEST'};
