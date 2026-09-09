@@ -32,7 +32,7 @@ export default function Checkout() {
         <h1><Copy field="checkout.ready-heading"/></h1>
         <p className="checkout-subtitle"><Copy field="checkout.secure-description"/></p>
         {params.get('canceled')==='1'&&<p className="checkout-info" role="status">Checkout was canceled. You haven’t been charged. Your sling is still here.</p>}
-        {config?.mode==='test'&&<p className="preview-notice">Test checkout. No real payment will be taken. Use Stripe’s test card details.</p>}
+        {config?.mode==='test'&&<p className="preview-notice">Try the whole checkout with test card <strong>4242 4242 4242 4242</strong>, any future expiration date, and any three-digit CVC. Use a made-up name and address.</p>}
         {editing&&dirty&&<p className="preview-notice">Save your site changes before checking out. Payments use the saved price.</p>}
         <div className="checkout-details"><div><Truck size={21}/><div><h2><Copy field="checkout.shipping"/></h2><p>{config?.countries.length?`Shipping to ${config.countries.map(c=>c==='US'?'the United States':'Canada').join(' and ')}.`:'Shipping options appear at checkout.'}</p>{config?.dispatchNote&&<p>{config.dispatchNote}</p>}</div></div><div><LockKeyhole size={21}/><div><h2><Copy field="checkout.payment-heading"/></h2><p><Copy field="checkout.payment-description"/></p></div></div></div>
         {error&&<p className="error-message" role="alert">{error}</p>}

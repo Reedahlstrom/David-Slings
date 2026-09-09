@@ -3,11 +3,11 @@ import { lazy, Suspense, useEffect } from "react";
 import LandingPage from "./pages/LandingPage";
 import { MediaProvider } from "./lib/storefront";
 import SiteEditor from "./components/SiteEditor";
+import TestModeNotice from "./components/TestModeNotice";
 const Checkout = lazy(() => import("./pages/Checkout"));
 const MediaStudio = lazy(() => import("./pages/MediaStudio"));
 const CheckoutSuccess = lazy(() => import("./pages/CheckoutSuccess"));
-const AdminLogin = lazy(() => import("./pages/AdminLogin"));
-const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
+const Orders = lazy(() => import("./pages/Orders"));
 function ScrollToTop() {
   const { pathname, hash } = useLocation();
   useEffect(() => {
@@ -25,6 +25,7 @@ export default function App() {
   return (
     <MediaProvider>
       <ScrollToTop />
+      <TestModeNotice />
       <Suspense
         fallback={
           <div className="loading-page" role="status">
@@ -38,8 +39,8 @@ export default function App() {
           <Route path="/studio" element={<MediaStudio />} />
           <Route path="/edit" element={<MediaStudio />} />
           <Route path="/success" element={<CheckoutSuccess />} />
-          <Route path="/admin/login" element={<AdminLogin />} />
-          <Route path="/admin" element={<AdminDashboard />} />
+          <Route path="/admin/login" element={<Navigate to="/admin" replace />} />
+          <Route path="/admin" element={<Orders />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </Suspense>
