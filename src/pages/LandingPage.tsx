@@ -45,7 +45,7 @@ export default function LandingPage() {
               <span className="tiny-sun">✳</span> MADE BY HAND. MEANT FOR
               OUTSIDE.
             </p>
-            <h1 id="hero-title">Learn How to Sling</h1>
+            <h1 id="hero-title">Made for a good time.</h1>
             <p className="hero-description">A leather pouch. Two cords.</p>
             <div className="hero-actions">
               <a className="button" href="#sling">
@@ -56,7 +56,7 @@ export default function LandingPage() {
                 How does it work? <ArrowDown size={15} />
               </a>
             </div>
-            <p className="handwritten hero-note">Simple stuff. Good times.</p>
+            <p className="handwritten hero-note">Go sling.</p>
           </div>
           <div className="hero-art">
             <div className="art-label">THE ORIGINAL SHEPHERD’S SLING</div>
